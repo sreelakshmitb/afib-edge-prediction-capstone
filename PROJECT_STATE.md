@@ -1,7 +1,7 @@
 # AFib Edge Prediction Capstone — Project State
 
 ## Current Phase
-Both candidates completed all five patient-separated outer folds; results and experimental FP32 exports verified.
+PILOT_V1 preserved. Real LTAFDB smoke verification passed; combined-cohort acquisition and validation-only development are in progress.
 
 ## Team
 - Sreelakshmi — sreelakshmitb
@@ -12,7 +12,10 @@ Both candidates completed all five patient-separated outer folds; results and ex
 “A Lightweight Deep Learning Model for Short-Term Atrial Fibrillation Prediction from Single-Lead ECG Signals in Healthcare 4.0” — Zhang et al., ICASSP 2026.
 
 ## Core Objective
-Predict AF onset within the subsequent 20 minutes using sinus-rhythm single-lead ECG.
+Build a lightweight model that predicts AF onset within the subsequent 20 minutes
+from single-lead ECG and generalizes to patients unseen during training. Exact
+paper replication is not the objective. Annotation-eligible non-AF observations
+are not guaranteed independently adjudicated pure sinus rhythm.
 
 ## Fixed Tensor Contracts
 - ECG: [B,20,1,7500]
@@ -43,7 +46,7 @@ SE-CNN-HRV-UniLSTM — CAPSTONE EXTENSION, 198,425 parameters.
 The final deployed architecture is undecided.
 
 ## Reference Model
-CNN-HRV-UniLSTM — PAPER REPRODUCTION / REFERENCE BASELINE, 187,393 parameters.
+CNN-HRV-UniLSTM — PAPER-BASED REFERENCE BASELINE, 187,393 parameters.
 This architecture is attributed to Zhang et al., not an original capstone contribution.
 Unspecified details are marked REPRODUCTION CHOICE in the paper audit.
 
@@ -53,7 +56,7 @@ Unspecified details are marked REPRODUCTION CHOICE in the paper audit.
 - Primary paper available
 - University thesis template available
 - Current capstone circular available
-- Local branch: codex/afdb-pipeline; implementation is committed in focused stages.
+- Local branch: codex/combined-cohort-development; PILOT_V1 report is preserved at 8c36169.
 - Python 3.14.6 / CPU PyTorch 2.14.0 environment verified; dependencies pinned.
 - WFDB loading, verified/resumable AFDB downloads, causal ECG preprocessing,
   six HRV features, labeling and independent manifest audit implemented.
@@ -75,6 +78,9 @@ Unspecified details are marked REPRODUCTION CHOICE in the paper audit.
   and 2. Maximum absolute errors: reference 5.96e-8, SE 1.19e-7.
 
 ## Unresolved
+- Complete LTAFDB acquisition, combined cohort audit and inner-only development
+- Public datasets lack a cross-dataset person linkage; namespaced record grouping
+  and duplicate checks cannot prove distinct biological identities
 - Final architecture selection without using outer-test results
 - Full-paper reproduction gaps, documented in docs/PAPER_REPRODUCIBILITY_AUDIT.md
 - Exact hardware breakout boards
@@ -82,6 +88,11 @@ Unspecified details are marked REPRODUCTION CHOICE in the paper audit.
 - Independent validation and improved sensitivity before any deployment claim
 
 ## Next Task
-The fixed first experiment is complete. Preserve its artifacts and recipe.
-Any follow-up experiment needs a separately documented protocol; do not tune
-architecture or thresholds using these already-observed outer-test results.
+Complete the new AFDB + LTAFDB cohort under docs/COMBINED_DEVELOPMENT_PROTOCOL.md.
+LTAFDB record 00 passed: 100 windows, 98 negative and 2 positive, with fixed tensors,
+reviewed annotation comparisons and observation-only signal processing verified.
+The new onset-v2 policy allows other known future rhythms instead of discarding
+a true AF outcome; PILOT_V1 labels remain untouched. Bulk processing has started.
+The three-configuration inner-only development implementation passes 25 tests;
+it has not yet trained on the combined cohort. Final outer evaluation is gated
+on completed inner selections. No new predictive performance is claimed.

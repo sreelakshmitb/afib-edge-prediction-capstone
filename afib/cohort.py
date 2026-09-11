@@ -27,6 +27,8 @@ def build(pilot, ltaf, out):
             raise ValueError('Incomplete PILOT_V1 source inventory')
         for report_path in report_paths:
             report=json.loads(report_path.read_text()); record=report['record']
+            if report['preprocessing_sha256']!=digest(Path(__file__).with_name('preprocess.py')):
+                raise ValueError('Mixed preprocessing versions')
             patient=f'{dataset}:{record}'
             for name,sha in report['source_sha256'].items():
                 if digest(root/'raw'/name)!=sha:
@@ -39,6 +41,8 @@ def build(pilot, ltaf, out):
             if dataset=='ltafdb':
                 if report.get('label_policy')!='onset-v2':
                     raise ValueError('Wrong label version')
+                if any(r['patient']!=patient or r['dataset']!=dataset or r['record']!=record for r in old):
+                    raise ValueError('LTAFDB record identity mismatch')
                 rows.extend(old); excluded[patient]=report['rejected']
                 continue
             # Reuse identical observation features. Only newly eligible AFDB windows

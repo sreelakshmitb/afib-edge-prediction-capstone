@@ -75,3 +75,32 @@ Meaningful validation performance cannot be promised in advance. Do not run or
 claim a final evaluation merely because training completed. PILOT_V1 results
 informed this follow-up, so combined-cohort results must disclose that history;
 truly independent external validation remains necessary after final freezing.
+
+## First targeted comparison (declared before combined training)
+
+Three configurations only: reference + full training negative/positive BCE
+weight; SE + the same weight; SE + square root of that weight. No weighted
+sampling or focal loss in this first comparison, so imbalance correction is
+not unintentionally doubled. AdamW lr 5e-4, weight decay 1e-4, batch size 8,
+maximum 20 epochs, patience 5, gradient norm clip 1. These optimizer settings
+are PAPER-BASED starting points; the targeted comparison is capstone development.
+
+Use the first split of StratifiedGroupKFold(4, shuffle=True, seed=2026+outer_fold)
+within each outer development partition. Stop if either inner partition lacks
+a class. This preserves group separation while improving class coverage.
+Checkpoint selection maximizes inner-validation average precision, with lower
+unweighted BCE as a tie break. Threshold selection maximizes validation recall
+subject to specificity >= 0.70, breaking ties by F1, specificity, then threshold.
+
+Before outer inference, each inner-selected candidate must have validation
+recall >= 0.50, F1 >= 0.25, specificity >= 0.70 and average precision above that
+validation set's prevalence. This is an engineering screening criterion, not a
+clinical performance standard or guarantee. Among passing candidates choose by
+recall, F1, AP, AUROC, specificity, in that order. If none passes, preserve the
+best failed result for diagnosis and do not open outer tests. All five inner
+folds must finish and pass before the separate evaluate phase is allowed.
+
+Each candidate saves resumable epoch state and a completion marker; completed
+candidates and outer results are preserved. Manifest, model-source, training-
+source and plan fingerprints must match when resuming. No final-validation
+dataset is accessed by this development command.
