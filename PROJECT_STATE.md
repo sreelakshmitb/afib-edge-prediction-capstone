@@ -1,7 +1,7 @@
 # AFib Edge Prediction Capstone — Project State
 
 ## Current Phase
-Real AFDB preprocessing and verification; candidate training infrastructure implemented.
+Both candidates completed all five patient-separated outer folds; results and experimental FP32 exports verified.
 
 ## Team
 - Sreelakshmi — sreelakshmitb
@@ -58,24 +58,30 @@ Unspecified details are marked REPRODUCTION CHOICE in the paper audit.
 - WFDB loading, verified/resumable AFDB downloads, causal ECG preprocessing,
   six HRV features, labeling and independent manifest audit implemented.
 - Real record 04015 smoke test passed: 54 observations (3 positive, 51 negative).
-- On resuming the interrupted run, nine completed records contained 314 observations
-  (50 positive, 264 negative); the remaining 14 records are being processed.
+- All 23 signal-bearing AFDB records processed; 20 eligible patients yielded
+  665 observations (92 positive, 573 negative). Three records yielded none.
 - Dataset/DataLoader, outer GroupKFold(5), group-aware inner holdout, training-only
   HRV transform, both candidate models and checkpoint training loop implemented.
-- 15 tests passed before resuming changes. A real two-example forward/backward
-  code smoke test had finite loss and gradients; this is not a validation result.
-- No trained checkpoint or real-fold performance is yet available.
+- 17 tests passed on the final resume audit. Both smoke runs and all ten full
+  candidate/fold runs have saved checkpoints. No completed fold was restarted.
+- Fixed recipe: maximum 20 epochs, patience 5, AdamW lr 5e-4, batch size 8;
+  checkpoint selection by minimum inner-validation BCE, fixed threshold 0.5.
+- Five-fold mean AUROC: reference 0.595085 ± 0.073127; SE 0.578832 ± 0.054145
+  (sample standard deviation). Recall is low; these are experimental models.
+- All fold metrics, confusion matrices, selected epochs, verification details and
+  artifact fingerprints are in docs/EXPERIMENT_RESULTS_20260911.md.
 - Raw data, arrays and generated manifests: C:/Users/Lenovo/afib-edge-data (outside Git).
-- FP32 export code exists; it has not yet exported a trained checkpoint.
+- Both fold-0 FP32 ONNX exports exist; saved parity checks passed for batches 1
+  and 2. Maximum absolute errors: reference 5.96e-8, SE 1.19e-7.
 
 ## Unresolved
-- Full AFDB manifest audit and patient-separated real training
 - Final architecture selection without using outer-test results
 - Full-paper reproduction gaps, documented in docs/PAPER_REPRODUCIBILITY_AUDIT.md
 - Exact hardware breakout boards
 - Actual Raspberry Pi latency
-- Final experimental results
+- Independent validation and improved sensitivity before any deployment claim
 
 ## Next Task
-Finish remaining AFDB records, assemble and audit the complete manifest, then run
-patient-separated smoke training and first real folds for the two candidates.
+The fixed first experiment is complete. Preserve its artifacts and recipe.
+Any follow-up experiment needs a separately documented protocol; do not tune
+architecture or thresholds using these already-observed outer-test results.
