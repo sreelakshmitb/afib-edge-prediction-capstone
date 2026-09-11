@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "afib-edge"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = ["numpy", "scipy", "pandas", "scikit-learn", "wfdb", "torch"]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+export = ["onnx", "onnxruntime"]
+
+[tool.setuptools.packages.find]
+include = ["afib*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

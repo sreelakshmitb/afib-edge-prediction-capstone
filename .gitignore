@@ -216,3 +216,18 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ECG sources and generated experiment artifacts (also store outside checkout).
+data/
+artifacts/
+runs/
+*.dat
+*.hea
+*.atr
+*.qrs
+*.qrsc
+*.npy
+*.npz
+*.pt
+*.pth
+*.onnx
