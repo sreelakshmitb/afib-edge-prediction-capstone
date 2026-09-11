@@ -3,6 +3,14 @@ project:
   name: afib-edge-prediction-capstone
   seed: 2026  # REPRODUCTION CHOICE: paper does not state a seed.
 
+data:
+  database: afdb
+  raw_dir: data/raw/afdb  # Local only; ignored by Git.
+  annotation_extension: atr
+  smoke_record: "04015"
+  lead_index: 0  # REPRODUCTION CHOICE: paper does not identify the AFDB lead.
+  window_stride_seconds: 480  # REPRODUCTION CHOICE: 20% overlap => 80% stride.
+
 signal:
   model_rate_hz: 250
   observation_minutes: 10
@@ -21,6 +29,16 @@ hrv:
     - Mean RR
     - pNN50
     - Sample Entropy
+  r_peak_detector: wfdb_xqrs  # REPRODUCTION CHOICE: detector is omitted by the paper.
+  invalid_value: NaN  # Missingness remains explicit until train-fold imputation is defined.
+  lf_hf:
+    interpolation_hz: 4.0
+    minimum_rr_intervals: 10
+    minimum_span_seconds: 20.0
+  sample_entropy:
+    embedding_dimension: 2
+    tolerance_sd_ratio: 0.2
+    minimum_rr_intervals: 8
 
 splitting:
   outer_method: GroupKFold
@@ -43,5 +61,7 @@ training_defaults:
   early_stopping_patience: 10
 
 notes:
-  - "R-peak detector and short-window HRV edge-case rules are intentionally not fixed here yet."
-  - "No preprocessing statistic may be fitted on validation or outer-test patients."
+  - "AFDB observation windows are accepted only when the full 10 minutes are explicitly annotated as normal rhythm (N)."
+  - "Rhythm annotation times are kept in original-record seconds; ECG resampling does not move labels."
+  - "No preprocessing statistic, HRV imputation, or scaler is fitted in this pipeline."
+  - "No validation or outer-test patient may influence learned preprocessing later."
