@@ -38,46 +38,47 @@ Predict AF onset within the subsequent 20 minutes using sinus-rhythm single-lead
 SE-CNN-HRV-UniLSTM
 
 ## Reference Model
-Paper-aligned CNN-HRV-UniLSTM (~189k parameters reported by the paper; exact reproduction architecture details remain to be resolved where omitted).
+Paper-aligned CNN-HRV-UniLSTM (~189k parameters reported by the paper; exact omitted architecture details remain reproduction choices).
 
-## Verified Repository Status
-- Repository bootstrap/documentation files exist on `main`.
-- Phase 1 source tree and Python dependency manifest are being added in `feature/phase1-bootstrap`.
-- A fixed-contract module and unit tests are being added for sampling rate, window geometry, HRV ordering, GroupKFold count, and parameter ceiling.
-- A lightweight GitHub Actions workflow is being added for source compilation and contract tests.
-- `.gitignore` is being hardened against raw ECG data, generated arrays, checkpoints, ONNX files, and experiment logs.
-- No AFDB/LTAFDB raw data is committed.
-- No dataset acquisition/loader implementation exists yet.
-- No preprocessing outputs, manifests, windows, HRV arrays, checkpoints, trained models, or experiment results have been verified in GitHub.
+## Verified Main Status
+- Phase 1 repository bootstrap from PR #2 is merged on `main`.
+- Minimal `configs/`, `src/`, `scripts/`, `tests/`, and ignored `artifacts/` structure exists.
+- CI compiles Python sources and runs repository contract tests.
+- Raw/local `data/` and generated model/data artifacts are ignored by Git.
+- No raw ECG dataset, preprocessing output, checkpoint, trained model, or experiment result is committed.
 
-## Phase 1 Repository Scaffold
-Expected tracked structure after the bootstrap PR:
-- `configs/`
-- `src/data/`
-- `src/models/`
-- `src/training/`
-- `src/deployment/`
-- `scripts/`
-- `tests/`
-- `artifacts/` (placeholder only; generated artifacts ignored)
+## AFDB Data Pipeline Branch
+`feature/afdb-data-pipeline` implements the first real-data path:
+- configurable local AFDB raw-data directory
+- one-record PhysioNet/WFDB download helper
+- header/identity loading without reading the complete record
+- WFDB `atr` rhythm parsing in original-record seconds
+- explicit AF interval extraction
+- causal 10-minute observation / 20-minute prediction labeling
+- exclusion of observations not fully annotated as normal rhythm
+- bounded one-window ECG loading for the smoke test
+- resampling to 250 Hz only when required
+- 0.5–40 Hz zero-phase Butterworth filtering
+- WFDB XQRS R-peak detection as a documented reproduction choice
+- six HRV features in the fixed project order
+- NaN plus validity masks/reasons for unavailable HRV values
+- [20,1,7500] ECG and [20,6] HRV smoke-test output
+- local NPZ artifact output under ignored `artifacts/`
 
-## Still Missing
-- AFDB acquisition/loading code
-- ECG resampling and 0.5–40 Hz filtering
-- AF rhythm annotation parsing and causal onset labeling
-- R-peak detection and RR interval extraction
-- Six-feature HRV extraction with explicit short-window edge-case handling
-- Generated-window integrity tests
-- Group-aware outer/inner split implementation and patient-ID audits
-- Dataset/DataLoader implementation
-- Paper-reference CNN-HRV-UniLSTM
-- Proposed SE-CNN-HRV-UniLSTM
-- Smoke training and real training
-- Metrics/checkpoints and ONNX export
-- Physical Raspberry Pi integration and benchmarking
+## Reproduction Choices Introduced in AFDB Pipeline
+- For this smoke pipeline, AFDB `record_id` is retained as `patient_id` so no unverified subject identity is invented. Before patient-wise cross-validation, AFDB record-to-subject identity must be explicitly verified or mapped.
+- AFDB lead index 0 is used for the smoke test because the paper does not identify the lead.
+- WFDB XQRS is used because the paper states R-peak detection but does not name the detector.
+- 20% observation overlap is interpreted as an 80% stride (480 seconds).
+- Short-window LF/HF and Sample Entropy are left missing when minimum support/stability checks fail.
 
 ## Validation State
-Repository-level contract tests are defined in the bootstrap branch. Full dependency installation and later data/model tests remain to be executed; no training success is claimed.
+Synthetic repository tests cover resampling length, filtering shape/finite output, 30-second/20-segment geometry, annotation timing, HRV order and missingness, causal labels, ongoing-AF exclusion, and identity preservation.
+
+A real AFDB record has NOT yet been claimed to pass the pipeline. The branch must remain unmerged until the local real-record smoke test succeeds and its console output is reviewed.
 
 ## Next Task
-After the Phase 1 bootstrap is merged, implement AFDB acquisition/loading first, keeping raw PhysioNet data outside Git.
+Run record `04015` locally through:
+raw AFDB record -> WFDB rhythm annotations -> bounded ECG load -> preprocessing -> window generation -> R-peaks/RR -> HRV -> ECG/HRV/label output.
+
+After successful local smoke verification, merge the AFDB data-pipeline PR and then implement patient-wise splitting / dataset loading.
