@@ -18,16 +18,30 @@ AFDB's two annotation-only records cannot provide ECG despite the paper's
 109-record combined-corpus count. Some external-dataset rates/counts and metric
 values are inconsistent. Reported paper metrics are not our results.
 
-Implementation decisions: CNN widths 32/64/128, kernels 7/5/5, stride 5 each,
-global average pooling, UniLSTM hidden 128, temporal mean pooling per Figure 1.
+PAPER REPRODUCTION / REFERENCE BASELINE: CNN-HRV-UniLSTM is attributed to
+Zhang et al.; it is not an original capstone contribution.
+
+REPRODUCTION CHOICE: CNN widths 32/64/128, exact kernels 7/5/5, stride 5 each,
+and CNN global average pooling fill unspecified implementation details.
+The 128-state UniLSTM is explicit in Figure 1. Choosing temporal mean pooling
+from Figure 1 over the conflicting final-state description is a REPRODUCTION CHOICE.
+
+REPRODUCTION CHOICE: only the HRV statistics receive a fitted StandardScaler-like
+transform, with median imputation, population standard deviation, and fixed
+clipping to [-10,10]. Missing training-only features fall back to zero.
 HRV scaler is fit only on inner-training patients; CNN BN statistics are learned
 only during training. No separately fitted scaler over changing CNN embeddings.
-Primary model adds SE after each CNN block, reduction ratio four. Both retain
+CAPSTONE EXTENSION: the proposed model adds SE after each CNN block, with
+reduction ratio four (minimum bottleneck width four). Both retain
 the same 128+6 representation and unidirectional recurrence.
 
-Initial experiment deviations: AFDB only, fixed non-overlapping observations,
+REPRODUCTION CHOICE / initial experiment deviations: AFDB only, fixed non-overlapping observations,
 no class downsampling, weighted BCE rather than combined focal loss and weighted
 sampling, no random masking, and validation BCE for checkpoint selection.
 These are explicitly a paper-aligned implementation, not an exact reproduction.
 The project's fixed HRV order overrides the paper's incomplete HRV description.
 See PREPROCESSING_PROTOCOL.md for the declared causal HRV and exclusion rules.
+
+Verified parameter counts: paper-reference candidate 187,393; proposed SE candidate
+198,425. Both are below 250,000. The final deployed architecture is undecided.
+Architecture selection must not use outer-test performance.

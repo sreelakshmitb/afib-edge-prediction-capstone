@@ -1,7 +1,8 @@
-"""Small reference-family CNN-HRV-UniLSTM and primary SE variant.
+"""PAPER REPRODUCTION / REFERENCE BASELINE and proposed CAPSTONE EXTENSION.
 
 Three convolutions, 128-d embedding and a 128-state UniLSTM follow the paper.
-Undisclosed channel widths/strides are documented engineering choices.
+Undisclosed channel widths/strides are explicitly REPRODUCTION CHOICE items.
+The optional SE blocks are the CAPSTONE EXTENSION; deployment remains undecided.
 """
 import torch
 from torch import nn

@@ -1,5 +1,11 @@
 # Initial AFDB protocol
 
+REPRODUCTION CHOICE: channel selection, grid stride, filter order/phase, XQRS,
+RR quality rules, exact HRV estimators/units, missing-value handling, and follow-up
+rhythm exclusions below are implementation choices not fully specified by the
+paper. The tensor shapes, sampling rate, observation and horizon are project
+constraints. No model architecture is selected by this preprocessing protocol.
+
 Source: https://physionet.org/content/afdb/1.0.0/ (version 1.0.0).
 The two annotation-only records 00735 and 03665 cannot supply ECG and are excluded.
 Use channel 0 consistently, record its original lead name, and group by AFDB record
