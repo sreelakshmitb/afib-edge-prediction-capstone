@@ -39,3 +39,21 @@ def test_128hz_resampling_and_hrv_contract():
     assert 590 <= peaks <= 610
     assert np.nanmedian(hrv[:,3]) > 990
     assert np.isnan(hrv[:9,2]).all()
+
+
+def test_sustained_af_is_screened_without_signal_download(monkeypatch,tmp_path):
+    import json
+    from afib import ltaf
+    raw=tmp_path/'raw'; raw.mkdir()
+    for name in ('00.hea','00.atr'): (raw/name).write_bytes(name.encode())
+    (raw/'SHA256SUMS').write_text('\n'.join(ltaf.digest(raw/n)+'  '+n for n in ('00.hea','00.atr')))
+    def fetch(name,raw,session):
+        assert name!='00.dat', 'Ineligible record must not download ECG'
+        return raw/name
+    monkeypatch.setattr(ltaf,'fetch',fetch)
+    monkeypatch.setattr(ltaf.wfdb,'rdheader',lambda *a:SimpleNamespace(fs=128,sig_len=300000,sig_name=['ECG','ECG']))
+    monkeypatch.setattr(ltaf.wfdb,'rdann',lambda *a:SimpleNamespace(sample=[0],aux_note=['(AFIB']))
+    ltaf.process('00',tmp_path)
+    report=json.loads((tmp_path/'processed-onset-v2/00/report.json').read_text())
+    assert report['accepted']==0 and not report['signal_download_required']
+    assert '00.dat' not in report['source_sha256']

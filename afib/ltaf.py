@@ -98,7 +98,7 @@ def process(record, root):
         sums = fetch('SHA256SUMS', raw, session)
         checksums = {line.split()[1].lstrip('*'): line.split()[0] for line in sums.read_text().splitlines()}
         hashes = {}
-        for ext in ('hea', 'atr', 'dat'):
+        for ext in ('hea', 'atr'):
             name = f'{record}.{ext}'
             path = fetch(name, raw, session)
             hashes[name] = digest(path)
@@ -107,14 +107,26 @@ def process(record, root):
     header = wfdb.rdheader(str(raw / record))
     ann = wfdb.rdann(str(raw / record), 'atr')
     intervals = merged_intervals(ann, header.sig_len)
+    candidates=[]
+    for start in range(0, header.sig_len, round(header.fs*600)):
+        end, horizon = start+round(header.fs*600), start+round(header.fs*1800)
+        label=onset_label(start,end,horizon,intervals,header.sig_len)
+        if label is not None:
+            candidates.append((start,end,label))
+    # Sustained AF and other ineligible records need annotation screening only.
+    # Do not transfer a large signal file that cannot provide an observation.
+    if candidates:
+        name=f'{record}.dat'
+        with requests.Session() as session:
+            path=fetch(name,raw,session)
+        hashes[name]=digest(path)
+        if hashes[name]!=checksums[name]:
+            raise ValueError(f'Source checksum mismatch: {name}')
     out.mkdir(parents=True, exist_ok=True)
     rows, rejected = [], Counter()
-    for start in range(0, header.sig_len, round(header.fs*600)):
-        end, horizon = start + round(header.fs*600), start + round(header.fs*1800)
-        label = onset_label(start, end, horizon, intervals, header.sig_len)
-        if label is None:
-            rejected['rhythm_or_followup'] += 1
-            continue
+    rejected['rhythm_or_followup']=len(range(0,header.sig_len,round(header.fs*600)))-len(candidates)
+    for start,end,label in candidates:
+        horizon=end+round(header.fs*1200)
         # Only the observation is passed to signal processing; annotation follow-up is label-only.
         signal = wfdb.rdrecord(str(raw / record), sampfrom=start, sampto=end, channels=[0]).p_signal[:, 0]
         try:
@@ -135,6 +147,7 @@ def process(record, root):
             label=label, path=str(path), r_peaks=count,
             hrv_missing=int(np.isnan(hrv).sum()), onset_seconds=[a/header.fs for a in onset]))
     report = dict(dataset='ltafdb', record=record, label_policy='onset-v2', native_fs=header.fs, channel=0,
+        signal_download_required=bool(candidates),candidate_labels=dict(Counter(c[2] for c in candidates)),
         lead=header.sig_name[0], source_sha256=hashes, rhythm_intervals=intervals,
         accepted=len(rows), labels=dict(Counter(r['label'] for r in rows)), rejected=dict(rejected),
         hrv_order=HRV_ORDER, preprocessing_sha256=digest(Path(__file__).with_name('preprocess.py')),
@@ -149,7 +162,9 @@ def process(record, root):
         report['hrv_missing_fraction'] = dict(zip(HRV_ORDER, np.mean(~np.isfinite(hrv), axis=(0, 1)).tolist()))
     (out / 'manifest.json').write_text(json.dumps(rows, indent=2))
     # Completion marker written last. Interrupted records may resume, completed records never reprocess.
-    (out / 'report.json').write_text(json.dumps(report, indent=2))
+    completion=out/'report.json.partial'
+    completion.write_text(json.dumps(report,indent=2))
+    completion.replace(out/'report.json')
     print(json.dumps({k:v for k,v in report.items() if k not in ('rhythm_intervals','source_sha256')}), flush=True)
 
 
