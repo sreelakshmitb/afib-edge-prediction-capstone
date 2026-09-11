@@ -1,0 +1,47 @@
+# PAPER-ALIGNED unless a comment says otherwise.
+project:
+  name: afib-edge-prediction-capstone
+  seed: 2026  # REPRODUCTION CHOICE: paper does not state a seed.
+
+signal:
+  model_rate_hz: 250
+  observation_minutes: 10
+  segment_seconds: 30
+  segments_per_observation: 20
+  samples_per_segment: 7500
+  prediction_horizon_minutes: 20
+  bandpass_low_hz: 0.5
+  bandpass_high_hz: 40.0
+
+hrv:
+  features:
+    - RMSSD
+    - SDNN
+    - LF/HF
+    - Mean RR
+    - pNN50
+    - Sample Entropy
+
+splitting:
+  outer_method: GroupKFold
+  outer_splits: 5
+  validation_group_aware: true
+
+model_contract:
+  ecg_shape: [B, 20, 1, 7500]
+  hrv_shape: [B, 20, 6]
+  max_parameters_exclusive: 250000
+
+training_defaults:
+  optimizer: AdamW
+  learning_rate: 0.0005
+  weight_decay: 0.0001
+  batch_size: 32
+  dropout: 0.3
+  gradient_clip_norm: 1.0
+  early_stopping_metric: f1
+  early_stopping_patience: 10
+
+notes:
+  - "R-peak detector and short-window HRV edge-case rules are intentionally not fixed here yet."
+  - "No preprocessing statistic may be fitted on validation or outer-test patients."

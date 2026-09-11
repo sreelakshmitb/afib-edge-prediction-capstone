@@ -104,7 +104,7 @@ ipython_config.py
 #   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
 #   This is especially recommended for binary packages to ensure reproducibility, and is more
 #   commonly ignored for libraries.
-#   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
+#   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-into-version-control
 # poetry.lock
 # poetry.toml
 
@@ -124,7 +124,7 @@ ipython_config.py
 #   in the .venv directory. It is recommended not to include this directory in version control.
 .pixi
 
-# PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow
 __pypackages__/
 
 # Celery stuff
@@ -216,3 +216,22 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# AFib capstone: raw/local datasets must never be committed
+data/
+
+# AFib capstone: generated arrays, checkpoints, exported models, and experiment logs
+artifacts/*
+!artifacts/.gitkeep
+*.npy
+*.npz
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.joblib
+*.pkl
+runs/
+wandb/
+mlruns/
+tensorboard/
