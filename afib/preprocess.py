@@ -1,10 +1,12 @@
 """AFDB preprocessing. No learned population statistics are computed here."""
 import argparse
 from collections import Counter
+from concurrent.futures import ThreadPoolExecutor
 from fractions import Fraction
 import hashlib
 import json
 from pathlib import Path
+import requests
 
 import numpy as np
 from scipy.signal import butter, resample_poly, sosfilt, welch
@@ -125,14 +127,65 @@ def preprocess_observation(signal, native_fs):
     return ecg, hrv, len(peaks)
 
 
-def process_record(record, root):
+def download_mirror(filename, raw):
+    """Resumable ranged transfer from PhysioNet's documented public S3 mirror."""
+    url = f'https://physionet-open.s3.amazonaws.com/afdb/1.0.0/{filename}'
+    if filename == 'SHA256SUMS':
+        # Published on PhysioNet's original archive, not replicated in S3.
+        url = 'https://archive.physionet.org/physiobank/database/afdb/SHA256SUMS'
+    destination = raw / filename
+    partial = raw / (filename + '.partial')
+    print(f'Downloading {url}', flush=True)
+    with requests.head(url, timeout=(15, 30)) as response:
+        response.raise_for_status()
+        expected = int(response.headers['Content-Length'])
+    count = partial.stat().st_size if partial.exists() else 0
+    if count > expected:
+        raise IOError(f'Partial download larger than source: {filename}')
+    failures = 0
+    while count < expected:
+        end = min(count + 1024**2, expected)-1
+        try:
+            with requests.get(url, headers={'Range':f'bytes={count}-{end}'}, timeout=(15, 30)) as response:
+                response.raise_for_status()
+                if response.status_code != 206 or response.headers.get('Content-Range') != f'bytes {count}-{end}/{expected}':
+                    raise IOError('Server did not honor requested byte range')
+                data = response.content
+                if len(data) != end-count+1:
+                    raise IOError(f'Incomplete range: {filename}')
+                with partial.open('ab') as stream:
+                    stream.write(data)
+                count += len(data)
+                failures = 0
+                print(f'{filename}: {count}/{expected} bytes', flush=True)
+        except requests.RequestException:
+            failures += 1
+            if failures >= 3:
+                raise
+            print(f'Retrying {filename} from byte {count}', flush=True)
+    partial.replace(destination)
+
+
+def process_record(record, root, source='s3'):
     raw, out = root / 'raw', root / 'processed' / record
     raw.mkdir(parents=True, exist_ok=True)
     out.mkdir(parents=True, exist_ok=True)
     required = [f'{record}.{ext}' for ext in ('hea', 'dat', 'atr')]
     missing = [f for f in required if not (raw / f).exists()]
     if missing:
-        wfdb.dl_files('afdb', str(raw), missing)
+        if source == 'wfdb':
+            wfdb.dl_files('afdb', str(raw), missing)
+        else:
+            for filename in missing:
+                download_mirror(filename, raw)
+    checksums_path = raw / 'SHA256SUMS'
+    if not checksums_path.exists():
+        download_mirror('SHA256SUMS', raw)
+    checksums = {line.split()[1].lstrip('*'):line.split()[0] for line in checksums_path.read_text().splitlines()}
+    hashes = {name: hashlib.sha256((raw / name).read_bytes()).hexdigest() for name in required}
+    for name, digest in hashes.items():
+        if digest != checksums[name]:
+            raise IOError(f'Source checksum mismatch: {name}')
     header = wfdb.rdheader(str(raw / record))
     ann = wfdb.rdann(str(raw / record), 'atr')
     intervals = rhythm_intervals(ann, header.sig_len)
@@ -156,10 +209,10 @@ def process_record(record, root):
             end_sample=end, native_fs=header.fs, start_seconds=start/header.fs,
             end_seconds=end/header.fs, label=label, path=str(path), r_peaks=npeaks,
             hrv_missing=int(np.isnan(hrv).sum())))
-    hashes = {name: hashlib.sha256((raw / name).read_bytes()).hexdigest() for name in required}
     report = dict(record=record, native_fs=header.fs, channel=0, lead=header.sig_name[0],
         rhythm_intervals=intervals, accepted=len(rows), labels=dict(Counter(r['label'] for r in rows)),
-        rejected=dict(rejected), source_sha256=hashes, hrv_order=HRV_ORDER)
+        rejected=dict(rejected), source_sha256=hashes, hrv_order=HRV_ORDER,
+        preprocessing_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
     (out / 'manifest.json').write_text(json.dumps(rows, indent=2))
     (out / 'report.json').write_text(json.dumps(report, indent=2))
     print(json.dumps({k: v for k, v in report.items() if k not in ('rhythm_intervals', 'source_sha256') }), flush=True)
@@ -170,14 +223,22 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--root', required=True)
     parser.add_argument('--records', nargs='+', default=['04015'])
+    parser.add_argument('--source', choices=['wfdb', 's3'], default='s3')
+    parser.add_argument('--workers', type=int, choices=[1, 2], default=1)
     args = parser.parse_args()
     root = external_root(args.root)
     records = args.records
     if records == ['all']:
         records = [r for r in wfdb.get_record_list('afdb') if r not in ('00735', '03665')]
     rows = []
-    for record in records:
-        rows.extend(process_record(record, root))
+    # Initialize shared checksums before worker threads, avoiding a file race.
+    raw = root / 'raw'
+    raw.mkdir(exist_ok=True)
+    if not (raw / 'SHA256SUMS').exists():
+        download_mirror('SHA256SUMS', raw)
+    with ThreadPoolExecutor(max_workers=args.workers) as executor:
+        for result in executor.map(lambda r: process_record(r, root, args.source), records):
+            rows.extend(result)
     (root / 'manifest.json').write_text(json.dumps(rows, indent=2))
     print(f'Manifest: {root / "manifest.json"}; {len(rows)} windows', flush=True)
 

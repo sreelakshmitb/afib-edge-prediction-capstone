@@ -3,7 +3,7 @@ from types import SimpleNamespace
 import numpy as np
 import pytest
 
-from afib.preprocess import label_window, rhythm_intervals, hrv_features, preprocess_observation, external_root
+from afib.preprocess import label_window, rhythm_intervals, hrv_features, preprocess_observation, external_root, download_mirror
 
 
 def test_rhythm_carries_state_and_unknown_prefix():
@@ -40,3 +40,21 @@ def test_bad_signal_rejected():
 def test_data_cannot_be_written_in_checkout():
     with pytest.raises(ValueError, match='outside'):
         external_root('.')
+
+
+def test_resumable_download_validates_byte_range(monkeypatch, tmp_path):
+    class Response:
+        status_code = 206
+        headers = {'Content-Length':'6', 'Content-Range':'bytes 3-5/6'}
+        content = b'def'
+        def __enter__(self): return self
+        def __exit__(self, *args): pass
+        def raise_for_status(self): pass
+    monkeypatch.setattr('afib.preprocess.requests.head', lambda *a, **k: Response())
+    def get(*args, **kwargs):
+        assert kwargs['headers']['Range'] == 'bytes=3-5'
+        return Response()
+    monkeypatch.setattr('afib.preprocess.requests.get', get)
+    (tmp_path / 'record.partial').write_bytes(b'abc')
+    download_mirror('record', tmp_path)
+    assert (tmp_path / 'record').read_bytes() == b'abcdef'

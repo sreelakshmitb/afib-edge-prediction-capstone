@@ -47,6 +47,12 @@ No quality, label or sampling rules may be tuned against outer-test performance.
 Generated raw files, arrays, manifests, checkpoints and run logs live under an
 explicit root outside the Git checkout. Each record report preserves source
 SHA256, sampling rate, lead, rhythm intervals, exclusions and class counts.
+Acquisition defaults to resumable one-megabyte ranges from PhysioNet's official
+public S3 mirror because an observed WFDB signal transfer stalled without a
+timeout. WFDB still reads all ECG and rhythm annotations. Every source file is
+verified against the published AFDB SHA256SUMS before processing. The optional
+`--source wfdb` uses WFDB's own downloader. At most two records are processed
+concurrently (`--workers 2`); manifest ordering remains deterministic.
 
 Example (PowerShell, replace the root with your external experiment folder):
 
