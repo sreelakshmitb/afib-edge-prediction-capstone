@@ -127,7 +127,7 @@ def preprocess_observation(signal, native_fs):
     return ecg, hrv, len(peaks)
 
 
-def download_mirror(filename, raw):
+def download_mirror(filename, raw, session=None):
     """Resumable ranged transfer from PhysioNet's documented public S3 mirror."""
     url = f'https://physionet-open.s3.amazonaws.com/afdb/1.0.0/{filename}'
     if filename == 'SHA256SUMS':
@@ -136,7 +136,8 @@ def download_mirror(filename, raw):
     destination = raw / filename
     partial = raw / (filename + '.partial')
     print(f'Downloading {url}', flush=True)
-    with requests.head(url, timeout=(15, 30)) as response:
+    client = session if session is not None else requests
+    with client.head(url, timeout=(15, 30)) as response:
         response.raise_for_status()
         expected = int(response.headers['Content-Length'])
     count = partial.stat().st_size if partial.exists() else 0
@@ -144,9 +145,9 @@ def download_mirror(filename, raw):
         raise IOError(f'Partial download larger than source: {filename}')
     failures = 0
     while count < expected:
-        end = min(count + 1024**2, expected)-1
+        end = min(count + 4*1024**2, expected)-1
         try:
-            with requests.get(url, headers={'Range':f'bytes={count}-{end}'}, timeout=(15, 30)) as response:
+            with client.get(url, headers={'Range':f'bytes={count}-{end}'}, timeout=(15, 30)) as response:
                 response.raise_for_status()
                 if response.status_code != 206 or response.headers.get('Content-Range') != f'bytes {count}-{end}/{expected}':
                     raise IOError('Server did not honor requested byte range')
@@ -176,8 +177,9 @@ def process_record(record, root, source='s3'):
         if source == 'wfdb':
             wfdb.dl_files('afdb', str(raw), missing)
         else:
-            for filename in missing:
-                download_mirror(filename, raw)
+            with requests.Session() as session:
+                for filename in missing:
+                    download_mirror(filename, raw, session)
     checksums_path = raw / 'SHA256SUMS'
     if not checksums_path.exists():
         download_mirror('SHA256SUMS', raw)
