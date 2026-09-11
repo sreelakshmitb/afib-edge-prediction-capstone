@@ -34,9 +34,21 @@ def main() -> int:
         stride_seconds=args.stride_seconds,
         prefer_positive=True,
     )
-    save_observation_npz(window, args.output)
 
+    if window.ecg.shape != (20, 1, 7500):
+        raise RuntimeError(f"Invalid ECG output shape: {window.ecg.shape}")
+    if window.hrv.shape != (20, 6):
+        raise RuntimeError(f"Invalid HRV output shape: {window.hrv.shape}")
+    if window.label not in (0, 1):
+        raise RuntimeError(f"Invalid binary label: {window.label}")
+    if not np.any(window.hrv_valid_mask[:, 3]):
+        raise RuntimeError(
+            "No valid Mean RR values were produced; R-peak/RR extraction did not pass."
+        )
+
+    save_observation_npz(window, args.output)
     missing_by_feature = np.count_nonzero(~window.hrv_valid_mask, axis=0).tolist()
+
     print("AFDB_SMOKE_TEST=PASS")
     print(f"database={window.database}")
     print(f"record_id={window.record_id}")
