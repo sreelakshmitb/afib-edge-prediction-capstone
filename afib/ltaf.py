@@ -172,7 +172,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--root', required=True)
     parser.add_argument('--records', nargs='+', required=True)
-    parser.add_argument('--workers',type=int,choices=[1,2],default=1)
+    parser.add_argument('--workers',type=int,choices=[1,2,4],default=1)
     args = parser.parse_args()
     root = external_root(args.root)
     records=args.records
