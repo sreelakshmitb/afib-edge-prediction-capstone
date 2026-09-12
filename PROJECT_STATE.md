@@ -1,7 +1,7 @@
 # AFib Edge Prediction Capstone — Project State
 
 ## Current Phase
-PILOT_V1 preserved. Real LTAFDB smoke verification passed; combined-cohort acquisition and validation-only development are in progress.
+PILOT_V1 preserved. All 84 LTAFDB records completed; the combined cohort passed integrity and patient-split checks. Targeted inner-validation-only training has started.
 
 ## Team
 - Sreelakshmi — sreelakshmitb
@@ -78,7 +78,7 @@ Unspecified details are marked REPRODUCTION CHOICE in the paper audit.
   and 2. Maximum absolute errors: reference 5.96e-8, SE 1.19e-7.
 
 ## Unresolved
-- Complete LTAFDB acquisition, combined cohort audit and inner-only development
+- Complete targeted inner-only development; no combined-cohort predictive result is claimed yet
 - Public datasets lack a cross-dataset person linkage; namespaced record grouping
   and duplicate checks cannot prove distinct biological identities
 - Final architecture selection without using outer-test results
@@ -88,11 +88,11 @@ Unspecified details are marked REPRODUCTION CHOICE in the paper audit.
 - Independent validation and improved sensitivity before any deployment claim
 
 ## Next Task
-Complete the new AFDB + LTAFDB cohort under docs/COMBINED_DEVELOPMENT_PROTOCOL.md.
-LTAFDB record 00 passed: 100 windows, 98 negative and 2 positive, with fixed tensors,
-reviewed annotation comparisons and observation-only signal processing verified.
-The new onset-v2 policy allows other known future rhythms instead of discarding
-a true AF outcome; PILOT_V1 labels remain untouched. Bulk processing has started.
-The three-configuration inner-only development implementation passes 25 tests;
-it has not yet trained on the combined cohort. Final outer evaluation is gated
-on completed inner selections. No new predictive performance is claimed.
+Continue the existing targeted-v1 development run under
+docs/COMBINED_DEVELOPMENT_PROTOCOL.md; preserve completed candidates and resume
+interrupted candidates from their saved state. The combined cohort contains
+3,541 windows (278 positive, 3,263 negative) from 67 contributing patient groups.
+All 109 source groups are accounted for, including 42 zero-window groups.
+The cohort audit and fingerprints are summarized in docs/COMBINED_COHORT_AUDIT.md.
+All 30 tests passed before resuming acquisition. Final outer evaluation remains
+gated on completed inner selections. No new predictive performance is claimed.
