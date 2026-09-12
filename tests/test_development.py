@@ -66,3 +66,21 @@ def test_training_resume_preserves_completed_epochs_and_ignores_outer_rows(monke
     assert resumed['epochs_run']==2 and resumed['selected_epoch']==result['selected_epoch']
     assert (directory/'best.pt').read_bytes()==original
     assert not (directory/'test_metrics.json').exists()
+
+
+def test_development_rejects_missing_or_changed_cohort_audit(tmp_path):
+    import json
+    from afib.development import load_audited_cohort
+    from afib.ltaf import digest
+    (tmp_path/'manifest.json').write_text('[]')
+    with pytest.raises(FileNotFoundError): load_audited_cohort(tmp_path)
+    audit=dict(manifest_sha256=digest(tmp_path/'manifest.json'),label_policy='onset-v2',
+               record_groups_screened=108,split_audit='checked')
+    (tmp_path/'cohort-audit.json').write_text(json.dumps(audit))
+    with pytest.raises(ValueError,match='Complete combined'): load_audited_cohort(tmp_path)
+    audit['record_groups_screened']=109
+    (tmp_path/'cohort-audit.json').write_text(json.dumps(audit))
+    (tmp_path/'splits.json').write_text(json.dumps([{}]*5))
+    assert load_audited_cohort(tmp_path)[0]==[]
+    (tmp_path/'manifest.json').write_text('[{}]')
+    with pytest.raises(ValueError,match='Complete combined'): load_audited_cohort(tmp_path)

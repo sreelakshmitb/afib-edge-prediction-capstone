@@ -80,6 +80,19 @@ def passes_gate(result):
             and result['average_precision']>result['positives']/result['n'])
 
 
+def load_audited_cohort(root):
+    audit=json.loads((root/'cohort-audit.json').read_text())
+    sha=digest(root/'manifest.json')
+    if (audit.get('manifest_sha256')!=sha or audit.get('label_policy')!='onset-v2'
+            or audit.get('record_groups_screened')!=109 or not audit.get('split_audit')):
+        raise ValueError('Complete combined cohort audit required before model development')
+    rows=json.loads((root/'manifest.json').read_text())
+    saved=json.loads((root/'splits.json').read_text())
+    if len(saved)!=5:
+        raise ValueError('Five audited patient splits required')
+    return rows,sha,saved
+
+
 def candidate_run(rows,train,val,directory,name,fold,args,manifest_sha):
     se,exponent=CANDIDATES[name]
     config=dict(candidate=name,fold=fold,seed=args.seed+fold,batch_size=args.batch_size,
@@ -158,7 +171,12 @@ def main():
     args=parser.parse_args(); root=external_root(args.root)
     if Path(args.run).name!=args.run or args.batch_size<1 or any(f not in range(5) for f in args.folds):
         raise ValueError('Invalid arguments')
-    rows=json.loads((root/'manifest.json').read_text()); sha=digest(root/'manifest.json')
+    rows,sha,audited_splits=load_audited_cohort(root)
+    splits=list(development_splits(rows,args.seed))
+    for fold,train,val,test in splits:
+        for name,indices in zip(('train','validation','test'),(train,val,test)):
+            if audited_splits[fold][name]['indices']!=indices.tolist():
+                raise ValueError('Development splits differ from completed cohort audit')
     out=root/'runs'/args.run; out.mkdir(parents=True,exist_ok=True)
     plan=dict(manifest_sha256=sha,policy=POLICY,candidates=CANDIDATES,seed=args.seed,batch_size=args.batch_size,
               training_sha256=digest(__file__),model_sha256=digest(Path(__file__).with_name('models.py')))
@@ -169,7 +187,6 @@ def main():
         save_json(out/'plan.json',plan)
         save_json(out/'provenance.json',dict(git_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
                                            torch_version=str(torch.__version__),device='cpu'))
-    splits=list(development_splits(rows,args.seed))
     if args.phase=='evaluate':
         # All five inner selections must be completed and pass before any outer inference.
         for fold,_,_,_ in splits:

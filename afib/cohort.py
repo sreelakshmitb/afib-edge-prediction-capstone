@@ -139,10 +139,13 @@ def build(pilot, ltaf, out):
         splits.append(dict(fold=fold,**parts))
     assert sorted(tested)==list(range(len(rows)))
     report['split_audit']='GroupKFold(5), inner StratifiedGroupKFold(4); disjoint groups and exactly-once outer coverage verified'
+    pending=out/'manifest.json.partial'
+    pending.write_text(json.dumps(rows,indent=2),encoding='utf-8',newline='\n')
+    report['manifest_sha256']=digest(pending)
     (out/'splits.json').write_text(json.dumps(splits,indent=2))
     (out/'cohort-audit.json').write_text(json.dumps(report,indent=2))
     # Publish manifest last, only after all source and tensor audits passed.
-    (out/'manifest.json').write_text(json.dumps(rows,indent=2))
+    pending.replace(out/'manifest.json')
     print(json.dumps(report,indent=2),flush=True)
 
 
