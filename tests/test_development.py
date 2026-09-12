@@ -19,6 +19,17 @@ def test_threshold_matches_exhaustive_validation_search_with_ties():
     assert actual['auroc']==threshold_metrics(y,p,.99)['auroc']
 
 
+def test_threshold_preserves_feasible_f1_instead_of_rewarding_false_alarms():
+    y=np.r_[np.ones(3,dtype=int),np.zeros(97,dtype=int)]
+    p=np.r_[[.9,.9,.8],np.full(29,.8),np.full(68,.1)]
+    selected=threshold_metrics(y,p,choose_threshold(y,p))
+    assert selected['threshold']==.9
+    assert selected['recall']==pytest.approx(2/3) and selected['f1']==pytest.approx(.8)
+    assert passes_gate(selected)
+    # The lower threshold gets perfect recall but fails the already-fixed F1 floor.
+    assert threshold_metrics(y,p,.8)['f1']<.25
+
+
 def test_threshold_cannot_claim_sensitivity_from_constant_scores():
     y=np.array([0,0,0,1]); p=np.ones(4)*.4
     result=threshold_metrics(y,p,choose_threshold(y,p))

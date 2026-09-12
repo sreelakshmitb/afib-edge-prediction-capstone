@@ -91,6 +91,12 @@ a class. This preserves group separation while improving class coverage.
 Checkpoint selection maximizes inner-validation average precision, with lower
 unweighted BCE as a tie break. Threshold selection maximizes validation recall
 subject to specificity >= 0.70, breaking ties by F1, specificity, then threshold.
+When any threshold also meets F1 >= 0.25, restrict selection to those thresholds
+before maximizing recall. Otherwise preserve the best specificity-constrained
+failed operating point for diagnosis. This avoids discarding a candidate that
+has a useful validation operating point in favor of one extra true positive
+accompanied by many false alarms. This edge case is covered by a synthetic test
+and was resolved before any combined-cohort fitting or validation prediction.
 
 Before outer inference, each inner-selected candidate must have validation
 recall >= 0.50, F1 >= 0.25, specificity >= 0.70 and average precision above that

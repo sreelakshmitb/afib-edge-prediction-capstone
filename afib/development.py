@@ -23,7 +23,7 @@ from afib.train import evaluate, metrics
 CANDIDATES = {'reference-bce': (False, 1.), 'se-bce': (True, 1.), 'se-sqrt-bce': (True, .5)}
 POLICY = dict(epochs=20,patience=5,lr=5e-4,weight_decay=1e-4,
               checkpoint='maximum inner-validation average precision; BCE tie break',
-              threshold='maximum recall subject to specificity >= 0.70; F1/specificity/threshold tie breaks',
+              threshold='maximum recall subject to specificity >= 0.70 and F1 >= 0.25 when feasible; F1/specificity/threshold tie breaks',
               candidate='gate passed first, then recall, F1, average precision, AUROC, specificity',
               gate=dict(recall=.5,f1=.25,specificity=.7,average_precision='above validation prevalence'))
 
@@ -37,7 +37,7 @@ def threshold_metrics(labels, probabilities, threshold):
     return result
 
 
-def choose_threshold(labels, probabilities, minimum_specificity=.7):
+def choose_threshold(labels, probabilities, minimum_specificity=.7, minimum_f1=.25):
     y=np.asarray(labels,dtype=int); p=np.asarray(probabilities,dtype=float)
     if set(y)!={0,1} or not np.isfinite(p).all() or np.any((p<0)|(p>1)):
         raise ValueError('Threshold selection requires finite probabilities and both classes')
@@ -49,6 +49,9 @@ def choose_threshold(labels, probabilities, minimum_specificity=.7):
     recall=tp/y.sum(); specificity=1-fp/(len(y)-y.sum())
     f1=np.divide(2*tp,2*tp+fp+y.sum()-tp,out=np.zeros(len(tp),dtype=float),where=(2*tp+fp+y.sum()-tp)>0)
     feasible=np.flatnonzero(specificity>=minimum_specificity)
+    meaningful=feasible[f1[feasible]>=minimum_f1]
+    if len(meaningful):
+        feasible=meaningful
     best=max(feasible,key=lambda i:(recall[i],f1[i],specificity[i],thresholds[i]))
     return float(thresholds[best])
 
