@@ -57,3 +57,33 @@ def test_sustained_af_is_screened_without_signal_download(monkeypatch,tmp_path):
     report=json.loads((tmp_path/'processed-onset-v2/00/report.json').read_text())
     assert report['accepted']==0 and not report['signal_download_required']
     assert '00.dat' not in report['source_sha256']
+
+
+def test_negative_only_record_still_downloads_signal_and_is_retained(monkeypatch,tmp_path):
+    import json
+    from afib import ltaf
+    raw=tmp_path/'raw'; raw.mkdir()
+    names=('00.hea','00.atr','00.dat')
+    for name in names: (raw/name).write_bytes(name.encode())
+    (raw/'SHA256SUMS').write_text('\n'.join(ltaf.digest(raw/n)+'  '+n for n in names))
+    fetched=[]
+    def fetch(name,raw,session): fetched.append(name); return raw/name
+    monkeypatch.setattr(ltaf,'fetch',fetch)
+    monkeypatch.setattr(ltaf.wfdb,'rdheader',lambda *a:SimpleNamespace(fs=128,sig_len=300000,sig_name=['ECG','ECG']))
+    monkeypatch.setattr(ltaf.wfdb,'rdann',lambda *a:SimpleNamespace(sample=[0],aux_note=['(N']))
+    monkeypatch.setattr(ltaf.wfdb,'rdrecord',lambda *a,**k:SimpleNamespace(p_signal=np.ones((76800,1))))
+    monkeypatch.setattr(ltaf,'preprocess_observation',lambda *a:(np.zeros((20,1,7500),dtype=np.float32),np.ones((20,6),dtype=np.float32),600))
+    ltaf.process('00',tmp_path)
+    report=json.loads((tmp_path/'processed-onset-v2/00/report.json').read_text())
+    assert '00.dat' in fetched and report['signal_download_required']
+    assert report['labels']=={'0':1} and report['accepted']==1
+
+
+def test_cohort_inventory_keeps_zero_window_and_negative_only_groups():
+    from afib.cohort import inventory_entry
+    zero=inventory_entry('ltafdb','01',{},dict(rhythm_or_followup=100),False)
+    negative=inventory_entry('ltafdb','00',{0:12},dict(rhythm_or_followup=1),True)
+    absent=inventory_entry('afdb','00735',{},dict(signal_unavailable=True),False,'annotation_only_no_ecg')
+    assert zero['windows']==0 and zero['prevalence'] is None
+    assert negative['windows']==12 and negative['prevalence']==0 and negative['status']=='included'
+    assert absent['status']=='annotation_only_no_ecg' and absent['patient']=='afdb:00735'
