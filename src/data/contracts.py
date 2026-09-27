@@ -1,0 +1,30 @@
+"""Fixed signal and tensor contracts shared across the project."""
+
+MODEL_RATE_HZ = 250
+OBSERVATION_MINUTES = 10
+SEGMENT_SECONDS = 30
+SEGMENTS_PER_OBSERVATION = 20
+SAMPLES_PER_SEGMENT = MODEL_RATE_HZ * SEGMENT_SECONDS
+PREDICTION_HORIZON_MINUTES = 20
+
+ECG_TIMESTEP_SHAPE = (1, SAMPLES_PER_SEGMENT)
+HRV_FEATURE_ORDER = (
+    "RMSSD",
+    "SDNN",
+    "LF/HF",
+    "Mean RR",
+    "pNN50",
+    "Sample Entropy",
+)
+HRV_FEATURE_COUNT = len(HRV_FEATURE_ORDER)
+OUTER_GROUP_KFOLD_SPLITS = 5
+MAX_MODEL_PARAMETERS_EXCLUSIVE = 250_000
+
+
+def validate_contracts() -> None:
+    """Raise AssertionError if a hard project contract is internally inconsistent."""
+    assert SAMPLES_PER_SEGMENT == 7_500
+    assert SEGMENTS_PER_OBSERVATION * SEGMENT_SECONDS == OBSERVATION_MINUTES * 60
+    assert HRV_FEATURE_COUNT == 6
+    assert OUTER_GROUP_KFOLD_SPLITS == 5
+    assert MAX_MODEL_PARAMETERS_EXCLUSIVE == 250_000

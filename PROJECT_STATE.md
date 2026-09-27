@@ -38,6 +38,7 @@ are not guaranteed independently adjudicated pure sinus rhythm.
 - 10-minute observation window
 - 20 chronological 30-second segments
 - Patient-wise GroupKFold(n_splits=5)
+- Group-aware validation inside each outer-training fold
 - No patient leakage
 - Model parameters <250,000
 - Raspberry Pi 4B, Cortex-A72, 2GB RAM

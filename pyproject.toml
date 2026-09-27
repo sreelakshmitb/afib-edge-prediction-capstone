@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -9,7 +9,7 @@ requires-python = ">=3.11"
 dependencies = ["numpy", "scipy", "pandas", "scikit-learn", "wfdb", "requests", "torch"]
 
 [project.optional-dependencies]
-dev = ["pytest"]
+dev = ["pytest", "ruff", "PyYAML"]
 export = ["onnx", "onnxruntime"]
 
 [tool.setuptools.packages.find]
@@ -17,4 +17,9 @@ include = ["afib*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["."]
+pythonpath = [".", "src"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
