@@ -1,7 +1,11 @@
 # AFib Edge Prediction Capstone — Project State
 
 ## Current Phase
-PILOT_V1 preserved. All 84 LTAFDB records completed; the combined cohort passed integrity and patient-split checks. Targeted inner-validation-only training has started.
+The team's current supplied project is the `se_last_mask`, seed-7 bundle in
+`model_bundles/se_last_mask_seed7`. See README.md and docs/CURRENT_BUNDLE_IMPORT.md.
+It contains five development inner-validation checkpoints and their evidence.
+The older local pipeline and the historical status below are preserved; no
+training or outer-test evaluation was resumed for this upload.
 
 ## Team
 - Sreelakshmi — sreelakshmitb

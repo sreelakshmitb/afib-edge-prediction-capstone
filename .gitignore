@@ -231,3 +231,6 @@ runs/
 *.pt
 *.pth
 *.onnx
+
+# Deliberately published small checkpoints from the team's supplied model bundle.
+!model_bundles/se_last_mask_seed7/checkpoints/inner[0-4]_best.pt

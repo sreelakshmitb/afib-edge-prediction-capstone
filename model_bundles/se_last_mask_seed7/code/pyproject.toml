@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "afib-edge-prediction"
+version = "0.8.0"
+description = "Leakage-safe single-lead ECG pipeline for short-term AF prediction"
+requires-python = ">=3.11"
+dependencies = [
+  "numpy>=1.26,<3",
+  "scipy>=1.11,<2",
+  "scikit-learn>=1.4,<2",
+  "wfdb>=4.1,<5",
+]
+
+[project.optional-dependencies]
+train = ["torch>=2.2,<3"]
+dev = ["pytest>=8,<9", "ruff>=0.6,<1"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100

@@ -1,0 +1,3 @@
+# Preserve the supplied bundle byte-for-byte so its SHA-256 manifest stays valid.
+model_bundles/se_last_mask_seed7/** -text
+model_bundles/se_last_mask_seed7/checkpoints/*.pt binary

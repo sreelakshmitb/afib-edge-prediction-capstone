@@ -1,6 +1,46 @@
 # afib-edge-prediction-capstone
 Lightweight short-term atrial fibrillation prediction from single-lead ECG using PyTorch, HRV, SE-CNN-UniLSTM and Raspberry Pi 4B deployment.
 
+## Project team
+
+This capstone is the joint work of all three team members. Research, software,
+experiments, analysis, and documentation were completed collaboratively:
+
+- [Sreelakshmi](https://github.com/sreelakshmitb)
+- [Jagadjith](https://github.com/Jagadjith-U)
+- [Aravind](https://github.com/aravindd3)
+
+Git commit authorship records who uploaded a change; it does not divide or rank
+the team's contributions.
+
+## Current supplied project — SE last-state model, seed 7
+
+The current project bundle is in [model_bundles/se_last_mask_seed7](model_bundles/se_last_mask_seed7).
+It includes all 48 files from the supplied archive: source code, model card,
+loading notes, experiment evidence, and five intentionally versioned checkpoints.
+The five small checkpoints are development inner-validation models, not final
+external-validation results or a single model trained on the complete dataset.
+
+- Model: `se_last_mask`, SE-CNN-HRV-UniLSTM, **159,503 parameters**.
+- Supplied evidence: mean five-fold validation AP **0.182597**;
+  pooled out-of-fold AP **0.153119**, AUROC **0.599308**.
+- Fixed inputs: ECG `[B,20,1,7500]`, HRV `[B,20,6]`, sampled at 250 Hz.
+- No raw ECG data is included. No training or outer-test evaluation was run
+  during this upload. These metrics come from the supplied evidence.
+
+See the [model card](model_bundles/se_last_mask_seed7/MODEL_CARD.md),
+[source package](model_bundles/se_last_mask_seed7/code), and
+[import notes](docs/CURRENT_BUNDLE_IMPORT.md) for provenance and limitations.
+The paper-based reference architecture remains attributed to Zhang et al.;
+the SE adaptation and associated engineering are team capstone work.
+
+## Earlier local pipeline and experiments
+
+The following commands and the root `afib/` package describe the earlier local
+pipeline, preserved for history. They are separate from the current `afib_edge`
+package in the supplied bundle; their preprocessing and checkpoints must not be
+interchanged.
+
 The software pipeline now supports real AFDB preprocessing, patient-separated
 training, and FP32 ONNX export. Experimental status is recorded in PROJECT_STATE.md;
 implemented code alone is not evidence of trained-model performance.
