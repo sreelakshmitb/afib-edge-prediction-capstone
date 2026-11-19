@@ -29,6 +29,8 @@ def main():
         counts['TP' if actual and positive else 'FN' if actual else 'FP' if positive else 'TN'] += 1
     assert len(rows) == summary['overall']['windows']
     assert all(summary['overall'][k] == v for k,v in counts.items()), counts
+    validation = list(csv.DictReader((ROOT/'artifacts/frozen_forecast_v1/forecast_validation_predictions.csv').open()))
+    assert not ({r['subject_id'] for r in validation} & {r['subject_id'] for r in rows}), 'Validation/test patient overlap'
     print(f"PASS: {len(manifest['files'])} release files; sealed-test counts {counts}")
 
 if __name__ == '__main__':
