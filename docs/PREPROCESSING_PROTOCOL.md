@@ -1,3 +1,5 @@
+> Historical development document. See [current project state](../PROJECT_STATE.md) and [final model](FINAL_MODEL.md) before using these instructions or metrics.
+
 # Initial AFDB protocol
 
 REPRODUCTION CHOICE: channel selection, grid stride, filter order/phase, XQRS,

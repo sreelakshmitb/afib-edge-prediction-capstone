@@ -1,3 +1,5 @@
+> Historical development document. See [current project state](../PROJECT_STATE.md) and [final model](FINAL_MODEL.md) before using these instructions or metrics.
+
 # Completed AFDB experiment audit — 2026-09-11
 
 All five outer folds completed for both candidates. No training or inference was restarted during this audit. All 72 existing run artifacts retained identical SHA-256 hashes and modification times during verification. No Python process was running at inspection.

@@ -1,3 +1,5 @@
+> Historical development document. See [current project state](../PROJECT_STATE.md) and [final model](FINAL_MODEL.md) before using these instructions or metrics.
+
 # Paper Reproducibility Audit
 Inspected supplied five-page IEEE paper, DOI 10.1109/ICASSP55912.2026.11464723,
 including Figure 1 visually. The paper is not copied into Git.

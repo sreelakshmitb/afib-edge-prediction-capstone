@@ -1,0 +1,20 @@
+[
+  {
+    "ref": "U3",
+    "pin": "1",
+    "old": "unconnected-(U3-Pin_1-Pad1)",
+    "new": "+3V3"
+  },
+  {
+    "ref": "U3",
+    "pin": "2",
+    "old": "/REG_IN_POS",
+    "new": "GND"
+  },
+  {
+    "ref": "U3",
+    "pin": "4",
+    "old": "+3V3",
+    "new": "/REG_IN_POS"
+  }
+]

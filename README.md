@@ -1,80 +1,59 @@
-# afib-edge-prediction-capstone
-Lightweight short-term atrial fibrillation prediction from single-lead ECG using PyTorch, HRV, SE-CNN-UniLSTM and Raspberry Pi 4B deployment.
+# AFib edge prediction capstone
 
-## Project team
+**AI-Based Single-Lead ECG Monitoring System for Early Atrial Fibrillation Prediction Using Edge Computing**
 
-This capstone is the joint work of all three team members. Research, software,
-experiments, analysis, and documentation were completed collaboratively:
+A research prototype that uses ten minutes of single-lead ECG to estimate AF onset risk within the following twenty minutes. MAX30003 acquisition and ESP32 Wi-Fi transport feed a Raspberry Pi 4B, which runs preprocessing and the frozen ONNX forecaster and serves an Android application.
 
-- [Sreelakshmi T B](https://github.com/sreelakshmitb)
-- [Jagadjith U](https://github.com/Jagadjith-U)
-- [Aravind V S](https://github.com/aravindd3)
+## Final project
 
-Git commit authorship records who uploaded a change; it does not divide or rank
-the team's contributions.
+| Item | Published implementation |
+| --- | --- |
+| Model | SE-CNN-HRV-UniLSTM, GroupNorm/curriculum, 159,503 parameters |
+| Frozen checkpoint | [forecast_checkpoint.pt](artifacts/frozen_forecast_v1/forecast_checkpoint.pt) |
+| Pi graph and preprocessing | [deployment/pi/model](deployment/pi/model) |
+| Model source and recipe | [training/unified](training/unified), `build_model("proposed-groupnorm")` |
+| Model input | 250 Hz; ECG `[B,20,1,7500]`; HRV `[B,20,6]` |
+| Output | One logit; sigmoid score; validation-selected cutoff **0.3310546875** |
+| Pi receiver, inference and app bridge | [deployment/pi](deployment/pi) |
+| Android | [android](android), imported v1.4.8 live-resume source |
+| ESP32 | [live Wi-Fi firmware](firmware/afib_live_wifi/afib_live_wifi.ino) |
+| PCB | [Rev B KiCad, fabrication and mechanical files](hardware/pcb) |
+| Integrity | [SHA-256 release manifest](artifacts/RELEASE_MANIFEST.json) |
 
-## Current supplied project — SE last-state model, seed 7
+## Results for the frozen model
 
-The current project bundle is in [model_bundles/se_last_mask_seed7](model_bundles/se_last_mask_seed7).
-It includes all 48 files from the supplied archive: source code, model card,
-loading notes, experiment evidence, and five intentionally versioned checkpoints.
-The five small checkpoints are development inner-validation models, not final
-external-validation results or a single model trained on the complete dataset.
+The once-only patient-disjoint outer fold-0 test contains **1,809 windows**, including 236 positives. AP is **0.22175**, AUROC **0.66424**, recall **23.31%**, and specificity **90.97%** at the frozen threshold. Confusion counts: TP 55, FN 181, FP 142, TN 1,431. It detected 38/107 eligible events, including 9/48 events in the 16–20 minute lead band.
 
-- Model: `se_last_mask`, SE-CNN-HRV-UniLSTM, **159,503 parameters**.
-- Supplied evidence: mean five-fold validation AP **0.182597**;
-  pooled out-of-fold AP **0.153119**, AUROC **0.599308**.
-- Fixed inputs: ECG `[B,20,1,7500]`, HRV `[B,20,6]`, sampled at 250 Hz.
-- No raw ECG data is included. No training or outer-test evaluation was run
-  during this upload. These metrics come from the supplied evidence.
+These are modest research results with limited sensitivity. A below-threshold score does not rule out AF. This is a research prototype, not a validated diagnostic device.
 
-See the [model card](model_bundles/se_last_mask_seed7/MODEL_CARD.md),
-[source package](model_bundles/se_last_mask_seed7/code), and
-[import notes](docs/CURRENT_BUNDLE_IMPORT.md) for provenance and limitations.
-The paper-based reference architecture remains attributed to Zhang et al.;
-the SE adaptation and associated engineering are team capstone work.
+The later fivefold BCE development assessment uses different checkpoints. See [results and limitations](docs/RESULTS.md), [raw test summary](results/frozen_forecast_sealed_test_v1/summary.json), and [predictions](results/frozen_forecast_sealed_test_v1/test_predictions.csv).
 
-## Earlier local pipeline and experiments
+## Start here
 
-The following commands and the root `afib/` package describe the earlier local
-pipeline, preserved for history. They are separate from the current `afib_edge`
-package in the supplied bundle; their preprocessing and checkpoints must not be
-interchanged.
+1. [Pi setup and live/replay commands](deployment/pi/README.md)
+2. [Model card and loading](docs/FINAL_MODEL.md)
+3. [Datasets and experiment scope](docs/DATASETS.md)
+4. [Training and notebooks](training/README.md)
+5. [Hardware and firmware](hardware/README.md)
+6. [Current state and remaining evidence](PROJECT_STATE.md)
+7. [Import provenance and cleanup](docs/RELEASE_NOTES_2026-11-20.md)
 
-The software pipeline now supports real AFDB preprocessing, patient-separated
-training, and FP32 ONNX export. Experimental status is recorded in PROJECT_STATE.md;
-implemented code alone is not evidence of trained-model performance.
+Live mode collects a real ten minutes before its first forecast. Replay transfers a prerecorded ten-minute waveform faster than real time. Presentation simulation is a UI demonstration and must be off for actual Pi inference.
 
-Tested environment: Windows, Python 3.14.6, CPU PyTorch 2.14.0. Install the pinned
-`requirements-lock.txt` into a project virtual environment. The initial experiment
-root is `C:/Users/Lenovo/afib-edge-data`, outside this repository.
+## Verification
 
-```powershell
-.venv/Scripts/python.exe -m pytest -q
-.venv/Scripts/python.exe -u -m afib.preprocess --root C:/Users/Lenovo/afib-edge-data --records all --workers 2
-.venv/Scripts/python.exe -m afib.audit --root C:/Users/Lenovo/afib-edge-data
-.venv/Scripts/python.exe -u -m afib.train --root C:/Users/Lenovo/afib-edge-data --run smoke --model se --epochs 1 --max-steps 2
-.venv/Scripts/python.exe -u -m afib.train --root C:/Users/Lenovo/afib-edge-data --run initial --model se --folds 0
+```bash
+python scripts/verify_release.py
+python -m pip install -r deployment/pi/requirements.txt
+python scripts/verify_frozen_model.py
 ```
 
-Run names must be new: existing fold directories are never silently overwritten.
-Smoke training never evaluates outer-test outcomes. Full training selects an epoch
-using inner-validation BCE, then evaluates its outer-test patients once at threshold
-0.5. The final deployed architecture is UNDECIDED. Do not select an architecture
-or checkpoint by comparing outer-test scores. Export support is implemented;
-it does not imply a deployment decision or a successfully exported trained model.
+The first command verifies published hashes without ML dependencies. The model check executes ONNX on three supplied validation fixtures. Add `--checkpoint` after installing PyTorch to compare both runtimes.
 
-CNN-HRV-UniLSTM is the PAPER REPRODUCTION / REFERENCE BASELINE, not an original
-capstone contribution. Unspecified paper details are REPRODUCTION CHOICE items
-in the reproducibility audit. SE-CNN-HRV-UniLSTM adds a CAPSTONE EXTENSION and
-remains a proposed candidate. Both candidates have fewer than 250,000 parameters.
+## Project team and attribution
 
-After an interrupted download, resume only unfinished record IDs with `--records`.
-Once all per-record outputs exist, `python -m afib.manifest --root ...` assembles
-them without recomputing completed records and checks source and code hashes.
-Then run the independent `afib.audit` check before training.
+Joint work of [Sreelakshmi T B](https://github.com/sreelakshmitb), [Jagadjith U](https://github.com/Jagadjith-U), and [Aravind V S](https://github.com/aravindd3). Research, software, experiments, analysis and documentation were collaborative; commit authorship records who uploaded a change.
 
-See `docs/PREPROCESSING_PROTOCOL.md` for labels, feature definitions and exclusions,
-and `docs/PAPER_REPRODUCIBILITY_AUDIT.md` for paper alignment and explicit deviations.
-The exported graph includes HRV imputation/scaling but expects already filtered,
-observation-normalized ECG. It does not implement raw ECG acquisition or R peaks.
+The CNN-HRV-UniLSTM direction is based on the Zhang et al. reference documented in [the reproducibility audit](docs/PAPER_REPRODUCIBILITY_AUDIT.md). SE attention, training repairs, eligibility work and device integration are capstone work; no superiority from SE alone is claimed.
+
+The earlier `afib/`, `src/`, `configs/`, tests and `model_bundles/se_last_mask_seed7/` remain historical development material. Their checkpoints and preprocessing are not interchangeable with the frozen deployment. No complete raw dataset is included; deployment includes three small validation fixtures from the supplied export.

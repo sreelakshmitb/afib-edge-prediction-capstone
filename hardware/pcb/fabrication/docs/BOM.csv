@@ -1,0 +1,40 @@
+Reference,Value,Footprint,Notes
+C1,10uF,Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder,Retained baseline part
+C2,100nF,Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder,Retained baseline part
+C3,1uF,Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder,Retained baseline part
+C4,10uF,Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder,Retained baseline part
+C5,100nF,Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder,Retained baseline part
+C6,100nF,Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder,Retained baseline part
+C7,100nF,Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder,Retained baseline part
+C8,10uF,Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder,Retained baseline part
+H1,M3_NPTH,MountingHole:MountingHole_3.2mm_M3,Retained baseline part
+H2,M3_NPTH,MountingHole:MountingHole_3.2mm_M3,Retained baseline part
+H3,M3_NPTH,MountingHole:MountingHole_3.2mm_M3,Retained baseline part
+H4,M3_NPTH,MountingHole:MountingHole_3.2mm_M3,Retained baseline part
+J1,CP2102_UART,Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical,Retained baseline part
+J2,MAX30003_BREAKOUT_V3,Afib:MAX30003_V3_Socket_Envelope_Provisional,2.54 mm header; conservative 37.5 x 37 mm body reservation; verify first article fit
+J3,MOLEX_104031-0811_MICROSD,Connector_Card:microSD_HC_Molex_104031-0811,Retained baseline part
+J4,BATTERY_1S_LIPO,Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical,Retained baseline part
+J5,TP4056_MODULE_HARNESS,Connector_JST:JST_PH_B4B-PH-K_1x04_P2.00mm_Vertical,Retained baseline part
+R1,10k,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,Retained baseline part
+R10,10k,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,Retained baseline part
+R11,100k,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,Retained baseline part
+R12,100k,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,Retained baseline part
+R13,10k,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,Retained baseline part
+R14,10k,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,Retained baseline part
+R15,10k,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,Retained baseline part
+R2,10k,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,Retained baseline part
+R3,499R,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,Retained baseline part
+R4,10k,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,Retained baseline part
+R5,10k,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,Retained baseline part
+R6,10k,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,Retained baseline part
+R7,10k,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,Retained baseline part
+R8,10k,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,Retained baseline part
+R9,10k,Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder,Retained baseline part
+SW1,TL1105BF160Q,Button_Switch_THT:SW_PUSH_6mm,Retained baseline part
+SW2,TL1105BF160Q,Button_Switch_THT:SW_PUSH_6mm,Retained baseline part
+SW3,TL1105BF160Q,Button_Switch_THT:SW_PUSH_6mm,Retained baseline part
+SW4,TL1105BF160Q,Button_Switch_THT:SW_PUSH_6mm,Retained baseline part
+SW5,SS12D10G3_POWER,Afib:SS12D10G3_Power,Retained baseline part
+U1,ESP32-WROOM-32,Afib:ESP32_WROOM32_0p30mm_thermal,Retained baseline part
+U3,7Semi_BO-10186_3V3,Afib:7Semi_BO10186_P2.54_20x15,BO-10186 listing applied: 2.54 mm pitch and 20 x 15 x 5 mm envelope

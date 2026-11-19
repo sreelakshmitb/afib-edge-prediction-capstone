@@ -1,0 +1,41 @@
+{
+  "status": "PROTOTYPE_FABRICATION_CANDIDATE",
+  "schematic_pin_count": 126,
+  "pin_net_mismatches": [],
+  "antenna_keepout_world_coordinates": [
+    [
+      126.0,
+      100.0
+    ],
+    [
+      174.0,
+      100.0
+    ],
+    [
+      174.0,
+      79.06
+    ],
+    [
+      126.0,
+      79.06
+    ]
+  ],
+  "track_segments": 461,
+  "vias": 88,
+  "minimum_track_mm": 0.25,
+  "minimum_via_drill_mm": 0.3,
+  "board_dimensions_mm": [
+    90,
+    80,
+    1.6
+  ],
+  "bo10186_pitch_mm": 2.54,
+  "bo10186_listed_dimensions_mm": [
+    20,
+    15,
+    5
+  ],
+  "bo10186_listing_geometry_applied": true,
+  "max30003_body_uses_conservative_reservation": true,
+  "module_geometry_verified": false
+}

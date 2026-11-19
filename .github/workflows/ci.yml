@@ -25,6 +25,14 @@ jobs:
           python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
           python -m pip install -e '.[dev,export]'
       - name: Compile Python sources
-        run: python -m compileall -q afib src scripts model_bundles/se_last_mask_seed7/code/src
+        run: python -m compileall -q afib src scripts deployment/pi training/unified/src training/finalization/src model_bundles/se_last_mask_seed7/code/src
+      - name: Verify immutable release evidence
+        run: python scripts/verify_release.py
+      - name: Reconstruct frozen checkpoint and compare ONNX fixtures
+        run: python scripts/verify_frozen_model.py --checkpoint
       - name: Run contract tests
         run: python -m pytest -q
+      - name: Run corrected training package tests
+        env:
+          PYTHONPATH: training/unified/src
+        run: python -m pytest -q training/unified/tests

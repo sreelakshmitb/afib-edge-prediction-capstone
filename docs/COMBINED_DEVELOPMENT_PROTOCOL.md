@@ -1,3 +1,5 @@
+> Historical development document. See [current project state](../PROJECT_STATE.md) and [final model](FINAL_MODEL.md) before using these instructions or metrics.
+
 # Combined-cohort development, distinct from PILOT_V1
 
 The objective is lightweight AF-onset prediction on unseen patients, not exact

@@ -1,0 +1,95 @@
+{
+  "far_weight": 1.0,
+  "selected_epoch": 8,
+  "inner_AP": 0.30912208741221886,
+  "inner_negative_p90_cutoffs": {
+    "legacy": 0.23666858673095703,
+    "iridia": 0.28380870819091797
+  },
+  "assessment": {
+    "rows": 933,
+    "positives": 107,
+    "negatives": 826,
+    "AP": 0.21406199750834065,
+    "AUROC": 0.6935688262315856,
+    "TP": 31,
+    "FP": 114,
+    "TN": 712,
+    "FN": 76,
+    "events": 20,
+    "total_events": 50,
+    "far_events": 8,
+    "total_far_events": 27,
+    "by_source": {
+      "legacy": {
+        "rows": 504,
+        "positives": 35,
+        "negatives": 469,
+        "AP": 0.13994660778118195,
+        "TP": 13,
+        "FP": 82,
+        "events": 10,
+        "total_events": 19,
+        "far_events": 4,
+        "total_far_events": 11
+      },
+      "iridia": {
+        "rows": 429,
+        "positives": 72,
+        "negatives": 357,
+        "AP": 0.2643368069513085,
+        "TP": 18,
+        "FP": 32,
+        "events": 10,
+        "total_events": 31,
+        "far_events": 4,
+        "total_far_events": 16
+      }
+    },
+    "fp_per_1000_negative_windows": 138.01452784503633,
+    "event_recall": 0.4,
+    "far_event_recall": 0.2962962962962963
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "loss": 0.574837460120519,
+      "inner_AP": 0.22000359047365192
+    },
+    {
+      "epoch": 2,
+      "loss": 0.5588311652342478,
+      "inner_AP": 0.21572798128480578
+    },
+    {
+      "epoch": 3,
+      "loss": 0.559095541636149,
+      "inner_AP": 0.22578571815024553
+    },
+    {
+      "epoch": 4,
+      "loss": 0.5596492012341817,
+      "inner_AP": 0.22599862357208483
+    },
+    {
+      "epoch": 5,
+      "loss": 0.5559556047121684,
+      "inner_AP": 0.2341835492333107
+    },
+    {
+      "epoch": 6,
+      "loss": 0.556460193792979,
+      "inner_AP": 0.2583732835108683
+    },
+    {
+      "epoch": 7,
+      "loss": 0.5527249117692311,
+      "inner_AP": 0.29294660476567486
+    },
+    {
+      "epoch": 8,
+      "loss": 0.5508405824502309,
+      "inner_AP": 0.30912208741221886
+    }
+  ]
+}

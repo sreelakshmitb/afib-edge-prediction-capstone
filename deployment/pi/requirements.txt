@@ -1,0 +1,6 @@
+# Portable installation constraints, not a measured Raspberry Pi lockfile.
+numpy>=1.24,<3
+scipy>=1.10,<2
+wfdb>=4.1,<5
+onnxruntime>=1.17,<2
+aiohttp>=3.9,<4

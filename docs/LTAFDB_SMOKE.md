@@ -1,3 +1,5 @@
+> Historical development document. See [current project state](../PROJECT_STATE.md) and [final model](FINAL_MODEL.md) before using these instructions or metrics.
+
 # Real LTAFDB record 00 verification
 
 Source: [PhysioNet LTAFDB 1.0.0](https://physionet.org/content/ltafdb/1.0.0/).

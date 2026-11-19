@@ -1,3 +1,5 @@
+> Historical development document. See [current project state](../PROJECT_STATE.md) and [final model](FINAL_MODEL.md) before using these instructions or metrics.
+
 # Completed combined onset-v2 cohort
 
 The existing LTAFDB acquisition resumed without reprocessing completed records

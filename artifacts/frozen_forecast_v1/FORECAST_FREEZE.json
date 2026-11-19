@@ -1,0 +1,81 @@
+{
+  "all_gates_pass": true,
+  "contract": {
+    "ecg_shape": [
+      "B",
+      20,
+      1,
+      7500
+    ],
+    "forecast_horizon_minutes": 20,
+    "hrv_shape": [
+      "B",
+      20,
+      6
+    ],
+    "observation_minutes": 10,
+    "sample_rate_hz": 250,
+    "seconds_per_segment": 30,
+    "segments": 20
+  },
+  "development_fold": 0,
+  "files": {
+    "afib-unified-training-v1.7-corrected-eligibility.zip": {
+      "bytes": 77470,
+      "sha256": "4b6b131e3b076ccc11b53b25b084c57ade1eedc7e574c95b8d2ce9c2abf5e667",
+      "source": "/content/afib-finalization-fast-v1/assets/afib-unified-training-v1.7-corrected-eligibility.zip"
+    },
+    "forecast_checkpoint.pt": {
+      "bytes": 1967471,
+      "sha256": "7444dc2391e1de5edd4dbd42f4e1515bb6462f3ea14ed25b847bc7004e90003a",
+      "source": "/content/drive/MyDrive/AFib_Capstone/runs/unified_controlled_repairs_v1/fold0/groupnorm_curriculum/best_checkpoint.pt"
+    },
+    "forecast_summary.json": {
+      "bytes": 12820,
+      "sha256": "5df60e16ec17a1958839f0c1ad50177a2ce748c0b32f11288d0d15af711e1025",
+      "source": "/content/drive/MyDrive/AFib_Capstone/runs/unified_controlled_repairs_v1/fold0/groupnorm_curriculum/controlled_repair_summary.json"
+    },
+    "forecast_validation_predictions.csv": {
+      "bytes": 159887,
+      "sha256": "05733520d0140db51a7078db45a24c707683dd375d6c861c80ab80837631ab9a",
+      "source": "/content/drive/MyDrive/AFib_Capstone/runs/unified_controlled_repairs_v1/fold0/groupnorm_curriculum/best_validation_predictions.csv"
+    },
+    "harmonized_cached_manifest.csv": {
+      "bytes": 1900840,
+      "sha256": "daff736a59a0dbff7c79cdda4bea9b1fcd73ffc6834e5064c2fb5e5282955ed4",
+      "source": "/content/drive/MyDrive/AFib_Capstone/manifests/harmonized_legacy_timing_v1/harmonized_cached_manifest.csv"
+    },
+    "locked_patient_splits.json": {
+      "bytes": 35172,
+      "sha256": "3d20589b4e069b3ad7952e14d6c20facd8fba1c275cdadd8b5cea544b17f5821",
+      "source": "/content/drive/MyDrive/AFib_Capstone/manifests/unified_training_v1/locked_patient_splits.json"
+    },
+    "protocol_summary.json": {
+      "bytes": 758,
+      "sha256": "e64224fb53a47a89f1250374cbee5eff0457b6fd30fa0287142c9caa33c8bb54",
+      "source": "/content/drive/MyDrive/AFib_Capstone/manifests/unified_training_v1/protocol_summary.json"
+    },
+    "unified_cached_manifest.csv": {
+      "bytes": 1044139,
+      "sha256": "27fd490331459c573ab6967d3c46006bc85b002491fe7cf1055e8abf2bb2313c",
+      "source": "/content/drive/MyDrive/AFib_Capstone/manifests/unified_training_v1/unified_cached_manifest.csv"
+    }
+  },
+  "format": "afib_forecast_freeze_v1",
+  "frozen_utc": "2026-09-28T21:19:01.287920+00:00",
+  "model_role": "20_minute_af_onset_risk_forecaster",
+  "outer_test_evaluated_during_selection": false,
+  "parameter_budget": 250000,
+  "parameter_count": 159503,
+  "prohibited_changes": [
+    "architecture",
+    "preprocessing",
+    "eligibility policy",
+    "loss",
+    "sampler",
+    "selection metric",
+    "threshold rule",
+    "patient splits"
+  ],
+  "selected_recipe": "groupnorm_curriculum_corrected_evaluation"
+}

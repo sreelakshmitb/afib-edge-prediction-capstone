@@ -1,0 +1,96 @@
+{
+  "result": "PASS - PROTOTYPE FABRICATION CANDIDATE",
+  "kicad_version": "10.0.6",
+  "drc_violations": 0,
+  "unconnected_items": 0,
+  "schematic_parity_issues": 0,
+  "erc_violations": 0,
+  "pin_net_mismatches": 0,
+  "board_outline_centerline_mm": [
+    90,
+    80,
+    1.6
+  ],
+  "edge_cuts_stroked_bbox_mm": [
+    90.05,
+    80.05
+  ],
+  "u3_pitch_mm": 2.54,
+  "u3_listing_envelope_mm": [
+    20,
+    15,
+    5
+  ],
+  "u3_drill_mm": 1.0,
+  "u3_pads": [
+    {
+      "pad": "1",
+      "net": "+3V3",
+      "world_xy_mm": [
+        169.47,
+        157.0
+      ],
+      "board_xy_mm": [
+        69.47,
+        57.0
+      ]
+    },
+    {
+      "pad": "2",
+      "net": "GND",
+      "world_xy_mm": [
+        169.47,
+        159.54
+      ],
+      "board_xy_mm": [
+        69.47,
+        59.54
+      ]
+    },
+    {
+      "pad": "3",
+      "net": "GND",
+      "world_xy_mm": [
+        169.47,
+        162.08
+      ],
+      "board_xy_mm": [
+        69.47,
+        62.08
+      ]
+    },
+    {
+      "pad": "4",
+      "net": "/REG_IN_POS",
+      "world_xy_mm": [
+        169.47,
+        164.62
+      ],
+      "board_xy_mm": [
+        69.47,
+        64.62
+      ]
+    }
+  ],
+  "npth_mounting_holes": {
+    "count": 4,
+    "diameter_mm": 3.2
+  },
+  "gerber_files": {
+    "afib_carrier-B_Cu.gbl": 116423,
+    "afib_carrier-B_Mask.gbs": 2783,
+    "afib_carrier-B_Paste.gbp": 520,
+    "afib_carrier-B_Silkscreen.gbo": 521,
+    "afib_carrier-Edge_Cuts.gm1": 1068,
+    "afib_carrier-F_Cu.gtl": 228356,
+    "afib_carrier-F_Mask.gts": 7181,
+    "afib_carrier-F_Paste.gtp": 5310,
+    "afib_carrier-F_Silkscreen.gto": 134388,
+    "afib_carrier-NPTH-drl_map.pdf": 12698,
+    "afib_carrier-NPTH.drl": 426,
+    "afib_carrier-PTH-drl_map.pdf": 21397,
+    "afib_carrier-PTH.drl": 2985,
+    "afib_carrier-job.gbrjob": 2773
+  },
+  "pcb_sha256": "4ff888154a3a6de7ec0baec9d01b29681a935e849084f02a59d339c3452007cb"
+}

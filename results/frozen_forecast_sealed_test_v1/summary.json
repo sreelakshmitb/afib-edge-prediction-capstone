@@ -1,0 +1,68 @@
+{
+  "scope": "once-only patient-disjoint fold-0 frozen outer test",
+  "model_sha256": "7444dc2391e1de5edd4dbd42f4e1515bb6462f3ea14ed25b847bc7004e90003a",
+  "manifest_sha256": "27fd490331459c573ab6967d3c46006bc85b002491fe7cf1055e8abf2bb2313c",
+  "validation_reproduction_max_abs_error": 0.000244140625,
+  "threshold_source": "frozen validation global operating point",
+  "overall": {
+    "windows": 1809,
+    "positive_windows": 236,
+    "negative_windows": 1573,
+    "AP": 0.22174736142864088,
+    "AUROC": 0.6642413826543256,
+    "threshold": 0.3310546875,
+    "TP": 55,
+    "FN": 181,
+    "FP": 142,
+    "TN": 1431,
+    "recall": 0.2330508474576271,
+    "specificity": 0.9097266369993643,
+    "events_detected": 38,
+    "events_available": 107,
+    "far_16_20_events_detected": 9,
+    "far_16_20_events_available": 48
+  },
+  "by_source": {
+    "iridia": {
+      "windows": 606,
+      "positive_windows": 127,
+      "negative_windows": 479,
+      "AP": 0.2725564556205096,
+      "AUROC": 0.606249897259711,
+      "threshold": 0.3310546875,
+      "TP": 44,
+      "FN": 83,
+      "FP": 100,
+      "TN": 379,
+      "recall": 0.3464566929133858,
+      "specificity": 0.791231732776618,
+      "events_detected": 30,
+      "events_available": 52,
+      "far_16_20_events_detected": 5,
+      "far_16_20_events_available": 26
+    },
+    "legacy": {
+      "windows": 1203,
+      "positive_windows": 109,
+      "negative_windows": 1094,
+      "AP": 0.1772016324772067,
+      "AUROC": 0.6491873941264277,
+      "threshold": 0.3310546875,
+      "TP": 11,
+      "FN": 98,
+      "FP": 42,
+      "TN": 1052,
+      "recall": 0.10091743119266056,
+      "specificity": 0.9616087751371115,
+      "events_detected": 8,
+      "events_available": 55,
+      "far_16_20_events_detected": 4,
+      "far_16_20_events_available": 22
+    }
+  },
+  "caveats": [
+    "Single fold-0 held-out patient test, not CPSC external validation",
+    "Event detection counts are not false alarms per hour",
+    "Do not tune based on this result"
+  ]
+}

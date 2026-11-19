@@ -1,0 +1,486 @@
+{
+  "all_gates_pass": true,
+  "best_epoch": 11,
+  "device": "Tesla T4",
+  "diagnostics": {
+    "by_source": {
+      "iridia": {
+        "event_sensitivity_at_source_threshold": {
+          "events": 42,
+          "events_detected": 17,
+          "events_missed": 25,
+          "sensitivity": 0.40476190476190477
+        },
+        "global_operating_point": {
+          "accuracy": 0.7214428857715431,
+          "f1": 0.3766816143497758,
+          "false_negatives": 59,
+          "false_positives": 80,
+          "precision": 0.3442622950819672,
+          "recall": 0.4158415841584158,
+          "specificity": 0.7989949748743719,
+          "threshold": 0.3310546875,
+          "true_negatives": 318,
+          "true_positives": 42
+        },
+        "patient_macro_at_source_threshold": {
+          "negative_patients": 21,
+          "positive_patients": 21,
+          "recall_mean": 0.24439108976924104,
+          "recall_median": 0.16666666666666666,
+          "specificity_mean": 0.9022556390977443,
+          "specificity_median": 0.9473684210526315,
+          "zero_recall_patients": 9
+        },
+        "ranking": {
+          "auroc": 0.6674337031693118,
+          "brier": 0.15867274615144683,
+          "log_loss": 0.49539765346384335,
+          "positives": 101,
+          "pr_auc": 0.3267365749311948,
+          "pr_auc_lift": 1.614272781095705,
+          "prevalence": 0.20240480961923848,
+          "windows": 499
+        },
+        "source_operating_point": {
+          "accuracy": 0.7755511022044088,
+          "f1": 0.33333333333333337,
+          "false_negatives": 73,
+          "false_positives": 39,
+          "precision": 0.417910447761194,
+          "recall": 0.27722772277227725,
+          "specificity": 0.9020100502512562,
+          "threshold": 0.383056640625,
+          "true_negatives": 359,
+          "true_positives": 28
+        }
+      },
+      "legacy": {
+        "event_sensitivity_at_source_threshold": {
+          "events": 42,
+          "events_detected": 13,
+          "events_missed": 29,
+          "sensitivity": 0.30952380952380953
+        },
+        "global_operating_point": {
+          "accuracy": 0.8841201716738197,
+          "f1": 0.16149068322981366,
+          "false_negatives": 71,
+          "false_positives": 64,
+          "precision": 0.16883116883116883,
+          "recall": 0.15476190476190477,
+          "specificity": 0.940795559666975,
+          "threshold": 0.3310546875,
+          "true_negatives": 1017,
+          "true_positives": 13
+        },
+        "patient_macro_at_source_threshold": {
+          "negative_patients": 14,
+          "positive_patients": 11,
+          "recall_mean": 0.22369493251846195,
+          "recall_median": 0.0,
+          "specificity_mean": 0.9153479405405631,
+          "specificity_median": 0.9558270676691729,
+          "zero_recall_patients": 6
+        },
+        "ranking": {
+          "auroc": 0.5970276639795604,
+          "brier": 0.09500352960127874,
+          "log_loss": 0.35150843177693764,
+          "positives": 84,
+          "pr_auc": 0.11470216272711141,
+          "pr_auc_lift": 1.5908097568700572,
+          "prevalence": 0.07210300429184549,
+          "windows": 1165
+        },
+        "source_operating_point": {
+          "accuracy": 0.8600858369098713,
+          "f1": 0.21256038647342995,
+          "false_negatives": 62,
+          "false_positives": 101,
+          "precision": 0.17886178861788618,
+          "recall": 0.2619047619047619,
+          "specificity": 0.906567992599445,
+          "threshold": 0.31689453125,
+          "true_negatives": 980,
+          "true_positives": 22
+        }
+      }
+    },
+    "global_operating_point": {
+      "accuracy": 0.8353365384615384,
+      "f1": 0.2864583333333333,
+      "false_negatives": 130,
+      "false_positives": 144,
+      "precision": 0.27638190954773867,
+      "recall": 0.2972972972972973,
+      "specificity": 0.9026369168356998,
+      "threshold": 0.3310546875,
+      "true_negatives": 1335,
+      "true_positives": 55
+    },
+    "ranking": {
+      "auroc": 0.6597226029274711,
+      "brier": 0.11409664201626303,
+      "log_loss": 0.3946579039054027,
+      "positives": 185,
+      "pr_auc": 0.2235212676376134,
+      "pr_auc_lift": 2.0104831856702092,
+      "prevalence": 0.11117788461538461,
+      "windows": 1664
+    },
+    "recall_by_lead_bin": {
+      "00_04": {
+        "positives": 37,
+        "recall": 0.32432432432432434,
+        "true_positives": 12
+      },
+      "04_08": {
+        "positives": 42,
+        "recall": 0.23809523809523808,
+        "true_positives": 10
+      },
+      "08_12": {
+        "positives": 34,
+        "recall": 0.38235294117647056,
+        "true_positives": 13
+      },
+      "12_16": {
+        "positives": 37,
+        "recall": 0.2972972972972973,
+        "true_positives": 11
+      },
+      "16_20": {
+        "positives": 35,
+        "recall": 0.2571428571428571,
+        "true_positives": 9
+      }
+    }
+  },
+  "fold": 0,
+  "format": "afib_controlled_validation_repair_v1",
+  "gates": {
+    "checkpoint_saved": true,
+    "finite_validation_metrics": true,
+    "full_horizon_checkpoint_selected": true,
+    "groupnorm_installed": true,
+    "outer_test_not_evaluated": true,
+    "parameter_budget": true,
+    "patient_disjoint": true,
+    "validation_predictions_saved": true
+  },
+  "history": [
+    {
+      "active_positive_lead_bins": [
+        "00_04",
+        "04_08"
+      ],
+      "elapsed_minutes": 0.36127119859059653,
+      "epoch": 1,
+      "selection_eligible": false,
+      "train_loss": 0.5565622234344483,
+      "validation": {
+        "auroc": 0.6554373846463095,
+        "loss": 0.39343742940288323,
+        "pr_auc": 0.19879877169850044
+      }
+    },
+    {
+      "active_positive_lead_bins": [
+        "00_04",
+        "04_08"
+      ],
+      "elapsed_minutes": 0.7227587938308716,
+      "epoch": 2,
+      "selection_eligible": false,
+      "train_loss": 0.5531410658359528,
+      "validation": {
+        "auroc": 0.638460976189171,
+        "loss": 0.38440658581944614,
+        "pr_auc": 0.20200923493793801
+      }
+    },
+    {
+      "active_positive_lead_bins": [
+        "00_04",
+        "04_08"
+      ],
+      "elapsed_minutes": 1.073570481936137,
+      "epoch": 3,
+      "selection_eligible": false,
+      "train_loss": 0.5479744696617126,
+      "validation": {
+        "auroc": 0.6368492224475998,
+        "loss": 0.38938728261452454,
+        "pr_auc": 0.20301278060250444
+      }
+    },
+    {
+      "active_positive_lead_bins": [
+        "00_04",
+        "04_08",
+        "08_12"
+      ],
+      "elapsed_minutes": 1.4354119499524434,
+      "epoch": 4,
+      "selection_eligible": false,
+      "train_loss": 0.5529586672782898,
+      "validation": {
+        "auroc": 0.638206969647132,
+        "loss": 0.3937949323310302,
+        "pr_auc": 0.21534339865264895
+      }
+    },
+    {
+      "active_positive_lead_bins": [
+        "00_04",
+        "04_08",
+        "08_12"
+      ],
+      "elapsed_minutes": 1.8054438591003419,
+      "epoch": 5,
+      "selection_eligible": false,
+      "train_loss": 0.5510520887374878,
+      "validation": {
+        "auroc": 0.6507994810226048,
+        "loss": 0.40878414907134497,
+        "pr_auc": 0.21644850937836493
+      }
+    },
+    {
+      "active_positive_lead_bins": [
+        "00_04",
+        "04_08",
+        "08_12"
+      ],
+      "elapsed_minutes": 2.1654921889305117,
+      "epoch": 6,
+      "selection_eligible": false,
+      "train_loss": 0.5515365266799926,
+      "validation": {
+        "auroc": 0.6481863201944338,
+        "loss": 0.40871202745116675,
+        "pr_auc": 0.21377474775513458
+      }
+    },
+    {
+      "active_positive_lead_bins": [
+        "00_04",
+        "04_08",
+        "08_12",
+        "12_16",
+        "16_20"
+      ],
+      "elapsed_minutes": 2.5340726892153422,
+      "epoch": 7,
+      "selection_eligible": true,
+      "train_loss": 0.5476031666994094,
+      "validation": {
+        "auroc": 0.6202492553405333,
+        "loss": 0.4046957590259038,
+        "pr_auc": 0.2034867693696545
+      }
+    },
+    {
+      "active_positive_lead_bins": [
+        "00_04",
+        "04_08",
+        "08_12",
+        "12_16",
+        "16_20"
+      ],
+      "elapsed_minutes": 2.879661973317464,
+      "epoch": 8,
+      "selection_eligible": true,
+      "train_loss": 0.5490710806846618,
+      "validation": {
+        "auroc": 0.6179083749063465,
+        "loss": 0.39431587148171204,
+        "pr_auc": 0.19665932654219062
+      }
+    },
+    {
+      "active_positive_lead_bins": [
+        "00_04",
+        "04_08",
+        "08_12",
+        "12_16",
+        "16_20"
+      ],
+      "elapsed_minutes": 3.250105301539103,
+      "epoch": 9,
+      "selection_eligible": true,
+      "train_loss": 0.5436834573745728,
+      "validation": {
+        "auroc": 0.6335434826307038,
+        "loss": 0.4001292193738314,
+        "pr_auc": 0.19901947072247478
+      }
+    },
+    {
+      "active_positive_lead_bins": [
+        "00_04",
+        "04_08",
+        "08_12",
+        "12_16",
+        "16_20"
+      ],
+      "elapsed_minutes": 3.59330130815506,
+      "epoch": 10,
+      "selection_eligible": true,
+      "train_loss": 0.5464726424217224,
+      "validation": {
+        "auroc": 0.6161760137419366,
+        "loss": 0.42010130647283334,
+        "pr_auc": 0.18980486529723117
+      }
+    },
+    {
+      "active_positive_lead_bins": [
+        "00_04",
+        "04_08",
+        "08_12",
+        "12_16",
+        "16_20"
+      ],
+      "elapsed_minutes": 3.9669835567474365,
+      "epoch": 11,
+      "selection_eligible": true,
+      "train_loss": 0.5429007869958877,
+      "validation": {
+        "auroc": 0.6597226029274711,
+        "loss": 0.3946615159511566,
+        "pr_auc": 0.2235212676376134
+      }
+    },
+    {
+      "active_positive_lead_bins": [
+        "00_04",
+        "04_08",
+        "08_12",
+        "12_16",
+        "16_20"
+      ],
+      "elapsed_minutes": 4.31372857093811,
+      "epoch": 12,
+      "selection_eligible": true,
+      "train_loss": 0.5435549062490463,
+      "validation": {
+        "auroc": 0.644021709336111,
+        "loss": 0.3989743461402563,
+        "pr_auc": 0.21182170809276948
+      }
+    },
+    {
+      "active_positive_lead_bins": [
+        "00_04",
+        "04_08",
+        "08_12",
+        "12_16",
+        "16_20"
+      ],
+      "elapsed_minutes": 4.685805551211039,
+      "epoch": 13,
+      "selection_eligible": true,
+      "train_loss": 0.5467500853538513,
+      "validation": {
+        "auroc": 0.6570838587065768,
+        "loss": 0.41400239817225015,
+        "pr_auc": 0.21936120180465046
+      }
+    },
+    {
+      "active_positive_lead_bins": [
+        "00_04",
+        "04_08",
+        "08_12",
+        "12_16",
+        "16_20"
+      ],
+      "elapsed_minutes": 5.0303555727005005,
+      "epoch": 14,
+      "selection_eligible": true,
+      "train_loss": 0.5383221268653869,
+      "validation": {
+        "auroc": 0.6471410558631654,
+        "loss": 0.42061249567912173,
+        "pr_auc": 0.20801628571289665
+      }
+    },
+    {
+      "active_positive_lead_bins": [
+        "00_04",
+        "04_08",
+        "08_12",
+        "12_16",
+        "16_20"
+      ],
+      "elapsed_minutes": 5.411046584447225,
+      "epoch": 15,
+      "selection_eligible": true,
+      "train_loss": 0.540317645072937,
+      "validation": {
+        "auroc": 0.615443232278932,
+        "loss": 0.40502390552025574,
+        "pr_auc": 0.18779324275082995
+      }
+    },
+    {
+      "active_positive_lead_bins": [
+        "00_04",
+        "04_08",
+        "08_12",
+        "12_16",
+        "16_20"
+      ],
+      "elapsed_minutes": 5.7606293797492985,
+      "epoch": 16,
+      "selection_eligible": true,
+      "train_loss": 0.5416931569576263,
+      "validation": {
+        "auroc": 0.6378469747638105,
+        "loss": 0.37562426179647446,
+        "pr_auc": 0.2079767745521243
+      }
+    }
+  ],
+  "manifest_sha256": "27fd490331459c573ab6967d3c46006bc85b002491fe7cf1055e8abf2bb2313c",
+  "outer_test_evaluated": false,
+  "parameter_count": 159503,
+  "recipe": {
+    "batch_size": 32,
+    "batches_per_epoch": 50,
+    "curriculum": true,
+    "curriculum_stages": {
+      "epochs_1_3": [
+        "00_04",
+        "04_08"
+      ],
+      "epochs_4_6": [
+        "00_04",
+        "04_08",
+        "08_12"
+      ],
+      "epochs_7_plus": [
+        "00_04",
+        "04_08",
+        "08_12",
+        "12_16",
+        "16_20"
+      ]
+    },
+    "learning_rate": 0.0005,
+    "loss": "binary_cross_entropy",
+    "model": "proposed-groupnorm",
+    "name": "groupnorm-curriculum",
+    "negative_per_batch": 24,
+    "normalization": "groupnorm",
+    "positive_per_batch": 8,
+    "selection_metric": "validation_pr_auc",
+    "specificity_floor": 0.9,
+    "weight_decay": 0.0001
+  },
+  "splits_sha256": "3d20589b4e069b3ad7952e14d6c20facd8fba1c275cdadd8b5cea544b17f5821",
+  "train_windows": 4819,
+  "validation_windows": 1664
+}

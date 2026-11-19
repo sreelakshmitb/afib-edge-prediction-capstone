@@ -1,0 +1,95 @@
+{
+  "far_weight": 1.0,
+  "selected_epoch": 5,
+  "inner_AP": 0.19537451031462671,
+  "inner_negative_p90_cutoffs": {
+    "legacy": 0.2309170365333557,
+    "iridia": 0.2849169373512268
+  },
+  "assessment": {
+    "rows": 716,
+    "positives": 106,
+    "negatives": 610,
+    "AP": 0.2236165654372394,
+    "AUROC": 0.6060470151562017,
+    "TP": 35,
+    "FP": 170,
+    "TN": 440,
+    "FN": 71,
+    "events": 23,
+    "total_events": 44,
+    "far_events": 4,
+    "total_far_events": 22,
+    "by_source": {
+      "legacy": {
+        "rows": 281,
+        "positives": 24,
+        "negatives": 257,
+        "AP": 0.12765790192545243,
+        "TP": 6,
+        "FP": 99,
+        "events": 3,
+        "total_events": 10,
+        "far_events": 0,
+        "total_far_events": 5
+      },
+      "iridia": {
+        "rows": 435,
+        "positives": 82,
+        "negatives": 353,
+        "AP": 0.27290153282280916,
+        "TP": 29,
+        "FP": 71,
+        "events": 20,
+        "total_events": 34,
+        "far_events": 4,
+        "total_far_events": 17
+      }
+    },
+    "fp_per_1000_negative_windows": 278.6885245901639,
+    "event_recall": 0.5227272727272727,
+    "far_event_recall": 0.18181818181818182
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "loss": 0.5737356881300608,
+      "inner_AP": 0.19082037705144744
+    },
+    {
+      "epoch": 2,
+      "loss": 0.5559552252292633,
+      "inner_AP": 0.18740810490126675
+    },
+    {
+      "epoch": 3,
+      "loss": 0.553348433971405,
+      "inner_AP": 0.1910002797057701
+    },
+    {
+      "epoch": 4,
+      "loss": 0.5576608141263326,
+      "inner_AP": 0.18996582679485907
+    },
+    {
+      "epoch": 5,
+      "loss": 0.5539441804091135,
+      "inner_AP": 0.19537451031462671
+    },
+    {
+      "epoch": 6,
+      "loss": 0.5532319982846577,
+      "inner_AP": 0.17834845756825357
+    },
+    {
+      "epoch": 7,
+      "loss": 0.549536015590032,
+      "inner_AP": 0.19071953946635434
+    },
+    {
+      "epoch": 8,
+      "loss": 0.5509205460548401,
+      "inner_AP": 0.18162360724052357
+    }
+  ]
+}

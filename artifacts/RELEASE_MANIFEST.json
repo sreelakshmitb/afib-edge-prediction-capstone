@@ -1,0 +1,110 @@
+{
+  "release": "2026-11-20",
+  "files": [
+    {
+      "path": "artifacts/frozen_forecast_v1/forecast_checkpoint.pt",
+      "bytes": 1967471,
+      "sha256": "7444dc2391e1de5edd4dbd42f4e1515bb6462f3ea14ed25b847bc7004e90003a"
+    },
+    {
+      "path": "artifacts/frozen_forecast_v1/FORECAST_FREEZE.json",
+      "bytes": 3094,
+      "sha256": "c420458d6be0b384523c8cc30114556ca84cdfcddfcf7916b8ad254944a7eb43"
+    },
+    {
+      "path": "artifacts/frozen_forecast_v1/forecast_summary.json",
+      "bytes": 12820,
+      "sha256": "5df60e16ec17a1958839f0c1ad50177a2ce748c0b32f11288d0d15af711e1025"
+    },
+    {
+      "path": "artifacts/frozen_forecast_v1/forecast_validation_predictions.csv",
+      "bytes": 159887,
+      "sha256": "05733520d0140db51a7078db45a24c707683dd375d6c861c80ab80837631ab9a"
+    },
+    {
+      "path": "deployment/pi/model/deployment_metadata.json",
+      "bytes": 513,
+      "sha256": "180214e753b1de825e5b58a2bb717e8e6478f0d313cf3add001af912d30ad3c9"
+    },
+    {
+      "path": "deployment/pi/model/forecast_model.onnx",
+      "bytes": 657425,
+      "sha256": "deffa6242d1d411472c9505ff9fdb416d60a047d0f7cad347508a16d3408d4ed"
+    },
+    {
+      "path": "deployment/pi/model/hrv_preprocessor.json",
+      "bytes": 632,
+      "sha256": "a3804c8e67c7c6c27713629f11e7d87a3d142e0066c82d5d591c9ba144a34d99"
+    },
+    {
+      "path": "deployment/pi/model/validation_sample_0.npz",
+      "bytes": 558739,
+      "sha256": "c643fc9db5ac7227f304f9c29f22699ea47bb21cb11401fb3e0db9f80d7d639b"
+    },
+    {
+      "path": "deployment/pi/model/validation_sample_1.npz",
+      "bytes": 558459,
+      "sha256": "9430f9ee34eea02cf9e41a05be51763a251905f9a2d92399e6635bf703c3aaac"
+    },
+    {
+      "path": "deployment/pi/model/validation_sample_2.npz",
+      "bytes": 555324,
+      "sha256": "574f4b34ca608af340b389a42845e32e3ef6737d56349d88127430cf49076ea4"
+    },
+    {
+      "path": "deployment/pi/model/validation_sample_expected.json",
+      "bytes": 815,
+      "sha256": "74464411fa711819302fdd760ca4205e752dee675b15dc97100f81bb383e1680"
+    },
+    {
+      "path": "results/far_lead_group_cv_v1/fold0/bce_control/result.json",
+      "bytes": 2037,
+      "sha256": "783af4c7b91ad7687a097ee4e883a57e642e275c8ce84d68b11d44ab42ebb692"
+    },
+    {
+      "path": "results/far_lead_group_cv_v1/fold1/bce_control/result.json",
+      "bytes": 2027,
+      "sha256": "8d4afc357c089bd37fe08932b2f3cfa620c916fd38ff31db4879465ed00f99a6"
+    },
+    {
+      "path": "results/far_lead_group_cv_v1/fold2/bce_control/result.json",
+      "bytes": 2025,
+      "sha256": "8be54bfbf1cc0a5a269cf5943230fbe42ab338eb412fc5d482a88d42ae735e31"
+    },
+    {
+      "path": "results/far_lead_group_cv_v1/fold3/bce_control/result.json",
+      "bytes": 2037,
+      "sha256": "a2a75a4cc215af0735b442928476929795a2549d836ee8cc45d80190ccc30788"
+    },
+    {
+      "path": "results/far_lead_group_cv_v1/fold4/bce_control/result.json",
+      "bytes": 2023,
+      "sha256": "b98d08153b458a3562bd8f312aa4e8ecc25c2be4db992211ff6c3723398cae61"
+    },
+    {
+      "path": "results/far_lead_group_cv_v1/summary.json",
+      "bytes": 13934,
+      "sha256": "5b386077d2ce51cb0c573a67c4dac2a0236d37726e8b5dc006c9e9ac3f4425ee"
+    },
+    {
+      "path": "results/frozen_forecast_sealed_test_v1/summary.json",
+      "bytes": 2011,
+      "sha256": "154ce62f068278488b40ba7edad15c2eeb0d451e0279ca2534a9ab1f051b596d"
+    },
+    {
+      "path": "results/frozen_forecast_sealed_test_v1/test_predictions.csv",
+      "bytes": 156231,
+      "sha256": "61e6929998d6a7f605c4eedb05513ac2c0f4e1807050ab6f8afa4bbc110331ef"
+    },
+    {
+      "path": "training/archives/afib-unified-training-v1.7-corrected-eligibility.zip",
+      "bytes": 77470,
+      "sha256": "4b6b131e3b076ccc11b53b25b084c57ade1eedc7e574c95b8d2ce9c2abf5e667"
+    },
+    {
+      "path": "hardware/archives/AFIB_Carrier_RevB_Prototype_Fab_Candidate.zip",
+      "bytes": 3280708,
+      "sha256": "9d50fe78e925453f5c6ca610407d04e5a7e987da2aaa5ef3cf5b66e081a9960a"
+    }
+  ]
+}

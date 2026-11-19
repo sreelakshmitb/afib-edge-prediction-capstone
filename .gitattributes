@@ -1,3 +1,17 @@
 # Preserve the supplied bundle byte-for-byte so its SHA-256 manifest stays valid.
 model_bundles/se_last_mask_seed7/** -text
 model_bundles/se_last_mask_seed7/checkpoints/*.pt binary
+
+artifacts/frozen_forecast_v1/** -text
+results/** -text
+deployment/pi/model/** -text
+training/** -text
+hardware/** -text -whitespace linguist-vendored
+hardware/pcb/verification/** linguist-generated
+hardware/pcb/mechanical/** linguist-generated
+hardware/pcb/fabrication/** linguist-generated
+*.step binary
+*.onnx binary
+*.npz binary
+*.zip binary
+*.jar binary

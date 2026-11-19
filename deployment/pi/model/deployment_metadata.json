@@ -1,0 +1,20 @@
+{
+  "source_checkpoint_sha256": "7444dc2391e1de5edd4dbd42f4e1515bb6462f3ea14ed25b847bc7004e90003a",
+  "model": "frozen groupnorm-curriculum forecast, fold 0",
+  "ecg_shape": [
+    1,
+    20,
+    1,
+    7500
+  ],
+  "hrv_shape": [
+    1,
+    20,
+    6
+  ],
+  "output": "logit; apply sigmoid for score",
+  "validation_derived_cutoff": 0.3310546875,
+  "exporter": "legacy",
+  "synthetic_input_max_logit_error": 1.9073486328125e-06,
+  "onnx_sha256": "deffa6242d1d411472c9505ff9fdb416d60a047d0f7cad347508a16d3408d4ed"
+}

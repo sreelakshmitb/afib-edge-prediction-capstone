@@ -241,3 +241,30 @@ tensorboard/
 
 # Deliberately published small checkpoints from the team's supplied model bundle.
 !model_bundles/se_last_mask_seed7/checkpoints/inner[0-4]_best.pt
+
+# Generated runtime state and local configuration
+deployment/pi/_training_src/
+deployment/pi/captures/
+deployment/pi/live_status.json
+deployment/pi/live_waveform*
+!deployment/pi/live_ecg_pi_waveform.py
+local.properties
+.gradle/
+firmware/**/secrets.h
+
+# Intentionally published frozen evidence
+!artifacts/
+!artifacts/frozen_forecast_v1/
+!artifacts/frozen_forecast_v1/**
+!artifacts/RELEASE_MANIFEST.json
+!results/
+!results/**
+!deployment/pi/model/
+!deployment/pi/model/**
+!training/archives/
+!training/archives/*.zip
+!training/finalization/assets/
+!training/finalization/assets/*.zip
+!hardware/archives/
+!hardware/archives/*.zip
+!android/app/src/**

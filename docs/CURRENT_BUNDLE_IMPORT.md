@@ -1,3 +1,5 @@
+> Historical development document. See [current project state](../PROJECT_STATE.md) and [final model](FINAL_MODEL.md) before using these instructions or metrics.
+
 # Current team project bundle
 
 Imported from `afib_best_prediction_model_se_last_mask_seed7.zip`, supplied by

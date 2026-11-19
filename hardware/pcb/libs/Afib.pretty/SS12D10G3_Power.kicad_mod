@@ -1,0 +1,206 @@
+(footprint "SS12D10G3_Power"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(property "Reference" "SW5"
+		(at 0 -2.3 0)
+		(layer "F.SilkS")
+		(hide yes)
+		(uuid "0b1d8dfa-bd83-4597-b3d6-dc0a37159bdd")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.12)
+			)
+		)
+	)
+	(property "Value" "SS12D10G3_POWER"
+		(at 0.3 4.5 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "b21103e9-24e4-4c8d-b324-0b17c1d54584")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "c57e84bc-e5b2-44e4-92bf-ae66319d2d6e")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Description" "Switch, single pole double throw"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "886ba778-0fee-4fef-bac4-15518bfde812")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "LCSC Part" "C7431053"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "8e37b1b7-b1a9-46a9-b889-b3325c00c33d")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(sheetname "/")
+	(sheetfile "kicad_gpt.zip.kicad_sch")
+	(attr through_hole)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start -6.35 -3.35)
+		(end 6.35 -3.35)
+		(stroke
+			(width 0.25)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "32755112-c617-4a61-863f-d1e6e0f8a4f9")
+	)
+	(fp_line
+		(start -6.35 3.35)
+		(end -6.35 -3.35)
+		(stroke
+			(width 0.25)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "9fd56fe2-ffbd-4176-a390-462f018938a0")
+	)
+	(fp_line
+		(start 6.35 -3.35)
+		(end 6.35 3.35)
+		(stroke
+			(width 0.25)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "11af1258-ebc3-4f6a-9913-c71a79295e35")
+	)
+	(fp_line
+		(start 6.35 3.35)
+		(end -6.35 3.35)
+		(stroke
+			(width 0.25)
+			(type solid)
+		)
+		(layer "F.SilkS")
+		(uuid "b72aa594-e821-4015-97e3-7cb17645cd10")
+	)
+	(fp_circle
+		(center -6.35 3.35)
+		(end -6.32 3.35)
+		(stroke
+			(width 0.06)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.SilkS")
+		(uuid "373b2e30-2a61-42f8-92e0-1c82f317f7d8")
+	)
+	(fp_line
+		(start -6.35 -3.35)
+		(end 6.35 -3.35)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "1cced5d1-077b-4450-b8b0-2089aced1ec8")
+	)
+	(fp_line
+		(start -6.35 3.35)
+		(end -6.35 -3.35)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "abed2867-e5ee-407b-bb71-a9dc0a61d3ee")
+	)
+	(fp_line
+		(start 6.35 -3.35)
+		(end 6.35 3.35)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "08fa6c9c-950a-4b8e-bbee-6d9e642caad0")
+	)
+	(fp_line
+		(start 6.35 3.35)
+		(end -6.35 3.35)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "212ebea2-a1ce-46ae-ab20-4ef018d1555f")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "55612bf2-5206-4995-a547-0297ed973e90")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" thru_hole oval
+		(at -4.8 0)
+		(size 2 2.5)
+		(drill oval 1.300022 1.999996)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "feab5333-64b3-47cf-ae9a-1d9e6cbea3da")
+	)
+	(pad "2" thru_hole oval
+		(at 0 0)
+		(size 2 2.5)
+		(drill oval 1.300022 1.999996)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "fd04b488-f02e-40d5-9c81-3c99a170e3c1")
+	)
+	(pad "3" thru_hole oval
+		(at 4.8 0)
+		(size 2 2.5)
+		(drill oval 1.300022 1.999996)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "5edf1076-1a4c-49b9-9e94-90f07e505fa3")
+	)
+	(embedded_fonts no)
+	(model "${KIPRJMOD}/libs/3d/SS12D10G3_aligned.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)
